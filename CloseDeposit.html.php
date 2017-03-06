@@ -43,13 +43,13 @@
 </head>
 <body onload="unset();">
 
-<h1> Open Deposit Account</h1>
+<h1> Close Deposit Account</h1>
 <h4> Please select a person from the list or search by Customer Number </h4>
 
-<?php include 'opencustnamesearch.php'; ?>
+<?php include 'closecustnamesearch.php'; ?>
 <p id = "display"> </p>
 
-<form  action="OpenDeposit.php"   method="post">
+<form  action="CloseDeposit.php"   method="post">
 
     <label for "amendid">Customer Number </label>
     <input type = "text" name = "customerID" id = "customerID"
@@ -83,15 +83,52 @@
 
 
 <br><br><br>
-
-    <input readonly type="text" name="accountID" id="accountID"
-           value="<?php if(isset($_SESSION['nextaccountID'])) echo $_SESSION['nextaccountID'] ?>">
-    <br>
-
-    <label for "deposit"> Opening Deposit </label> <input type="text" name="deposit" id="deposit" >
-<!-- deposit can not be empty -->
-    <input type="submit" value="addDeposit" name="addDeposit" id="addDeposit">
+    <label for "close1">close1 </label>
+    <input readonly type = "text" name = "close1" id = "close1"
+           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+    <label for "close2">close2 </label>
+    <input readonly type = "text" name = "close2" id = "close2"
+           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
 </form>
+<?php if(ISSET($_SESSION['results']))
+{
+    $tempARR = $_SESSION['results'];
+    echo "<table>
+		<tr> <th> Close Account </th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
 
+
+
+    {
+        foreach($tempARR as $row)
+        {
+
+           ?>
+
+            <td> <form name="formstuff" action="CloseDeposit.php" method="post">
+                    <input type="hidden" id="personid" name="personid" value="<?php echo $row[0]; ?>">
+                    <input type="submit" value="Close" id="closeAcc" name="closeAcc" title="Click here to close the Account">
+                </form></td>
+    <?php
+
+            foreach($row as $rowItem)
+            {
+                echo
+                    "<td>".$rowItem."</td>";
+
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+
+
+
+
+
+ }
+}
+else{
+    echo "";
+}
+?>
 </body>
 </html>
