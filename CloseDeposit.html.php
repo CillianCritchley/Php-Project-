@@ -105,7 +105,7 @@
            ?>
 
             <td> <form name="formstuff" action="CloseDeposit.php" method="post">
-                    <input type="hidden" id="personid" name="personid" value="<?php echo $row[0]; ?>">
+                    <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['accountID']; ?>">
                     <input type="submit" value="Close" id="closeAcc" name="closeAcc" title="Click here to close the Account">
                 </form></td>
     <?php

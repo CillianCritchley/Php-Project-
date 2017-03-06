@@ -43,7 +43,7 @@ else if(Isset($_POST['confirm']))
 
     $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened, DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts 
     ON DepositAccount.depositAccountID = CustomerAccounts.accountID
-    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = " . $_POST['customerID'];
+    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = " . $_POST['customerID'] . " AND closed = 0" ;
 
     if(!$result = mysqli_query($con,$sql))
     {
@@ -77,10 +77,12 @@ else if(Isset($_POST['confirm']))
     // if(isset(Session) unhide table div/frame and use loop for length of array to create and populate table
 
 }
-else if(isset($_POST['addDeposit'])) {
+else if(isset($_POST['closeAcc'])) {
 
-    $sql = "update closed ";
-
+    $sql = "update DepositAccount set closed=1 WHERE depositAccountID = " . $_POST['depAccID'];
+   if(! mysqli_query($con,$sql)){
+       die("Error closing Deposit Account".mysqli_error($con));
+   }
     $_SESSION = array();
 }
 
