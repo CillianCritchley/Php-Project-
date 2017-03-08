@@ -53,7 +53,6 @@ else if(Isset($_POST['confirm']))
     }
 
 
-
     $_SESSION['customerID'] = $_POST['customerID'];
     $_SESSION['firstname'] = $_POST['firstname'];
     $_SESSION['surname'] = $_POST['surname'];
@@ -63,21 +62,34 @@ else if(Isset($_POST['confirm']))
     $_SESSION['addCounty'] = $_POST['addCounty'];
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
-    $index = 0;
-  while($row = mysqli_fetch_array($result))
+   $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
+   $index=0;
+    foreach($_SESSION['results'] as $arrRow)
     {
-   //    echo $row['depositAccountID'] ." " . $row['balance'] . " " ;
-      //  echo "<br>";
-    $_SESSION['results'][$index] = array('accountID' => $row[0], 'balance' => $row[1], 'dateOpened' => $row[2]);
+        $sql = "Select * from Transactions where accountID = " . $_SESSION['results'][$index]['depositAccountID'];
 
+        if(!$transactions = mysqli_query($con,$sql))
+        {
+            die("Error in querying database ".mysqli_error($con));
+        }
+        $transactions = mysqli_fetch_all($transactions,MYSQLI_ASSOC);
+        $_SESSION['tran'][$index] = $transactions;
+        foreach($_SESSION['tran'][$index] as $complication) {
+            echo $complication['transactionID'] . " ";
+        }
+        echo "<br>";
         $index++;
 
+     /*   $transactions = mysqli_fetch_array($transactions);
+        $_SESSION['tran'][$index] = array('transactionID' => $transactions[0], 'accountID' => $transactions[1],
+            'amount' => $transactions[2], 'type' => $transactions[3], 'date' => $transactions[4]);
+        echo $_SESSION['tran'][$index]['transactionID']."<br>";
+        $index++;
+     */
     }
+   // echo $_SESSION['tran'][$index]['transactionID'];
 
-   // var_dump($_SESSION['results'][2]);
-    //$_SESSION['accountID'] = $row['depositAccountID'];
-        //make session variable to store 2d array. send back to CloseDeposit.html.php
-    // if(isset(Session) unhide table div/frame and use loop for length of array to create and populate table
+// need  rows from transactions table relating to accountID
 
 }
 else if(isset($_POST['closeAcc'])) {
@@ -98,5 +110,17 @@ header("Location: ViewDeposit.html.php");
 //or alternately use the following
 // echo "<script> window.location.href = 'view.html.php </script> ";
 
+/*
+$index = 0;
+while($row = mysqli_fetch_array($result))
+{
+//    echo $row['depositAccountID'] ." " . $row['balance'] . " " ;
+//  echo "<br>";
+$_SESSION['results'][$index] = array('accountID' => $row[0], 'balance' => $row[1], 'dateOpened' => $row[2]);
+$_SESSION['transactions'][$index] = array('tran1') =
+$index++;
+
+} */
 
 ?>
+

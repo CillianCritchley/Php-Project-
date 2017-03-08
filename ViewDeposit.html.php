@@ -102,6 +102,7 @@
 <?php if(ISSET($_SESSION['results']))
 {
     $tempARR = $_SESSION['results'];
+    $trans = $_SESSION['tran'];
     echo "<table>
 		<tr> <th> Close Account </th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
 
@@ -133,9 +134,10 @@
             echo "</tr>";
 
             ?>
+
                <tr id="<?php echo $index ?>1" style="display: none;">
             <td>
-            <table> <tr> <td> 1 </td></tr>
+            <table> <tr> <td><?php echo $trans[$index-1][$index -1]['transactionID'] ?> </td></tr>
             <tr> <td> 2</td></tr>
             </table>
             </td>
