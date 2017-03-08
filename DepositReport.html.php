@@ -55,10 +55,10 @@
 <h1> View Deposit Account</h1>
 <h4> Please select a person from the list or search by Customer Number </h4>
 
-<?php include 'viewcustnamesearch.php'; ?>
+<?php include 'reportcustnamesearch.php'; ?>
 <p id = "display"> </p>
 
-<form  action="ViewDeposit.php"   method="post">
+<form  action="DepositReport.php"   method="post">
 
     <label for "amendid">Customer Number </label>
     <input type = "text" name = "customerID" id = "customerID"

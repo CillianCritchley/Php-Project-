@@ -103,7 +103,7 @@ else if(isset($_POST['reset'])){
 session_unset();
 }
     //go back to the calling form - with the values that we need to display in sessions variables, if a record was found
-header("Location: ViewDeposit.html.php");
+header("Location: DepositReport.html.php");
 //or alternately use the following
 // echo "<script> window.location.href = 'view.html.php </script> ";
 
