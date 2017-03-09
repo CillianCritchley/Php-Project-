@@ -1,5 +1,6 @@
 <?php session_start();
-if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/CloseDeposit.html.php')
+
+if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/OpenDeposit.html.php')
 {
     $_SESSION = array();
 }
@@ -24,6 +25,9 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
         }
     </style>
     <script>
+
+
+
         function  populate()
         {
             var sel = document.getElementById("listbox");
@@ -44,6 +48,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
         window.onload = function(){
 
+
+
             document.getElementById('listbox').selectedIndex = -1;
         }
 
@@ -51,100 +57,78 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 
 </head>
-<body >
+<body>
+<div id="contain">
 <div id="top">
-<h1> Close Deposit Account</h1>
+<h1> Open Deposit Account</h1>
 <h4> Please select a person from the list or search by Customer Number </h4>
 </div>
-<div id="midleft"></div>
 
-<div id="midcen1">
-<?php include 'closecustnamesearch.php'; ?>
-<p id = "display"> </p>
 
-<form  action="CloseDeposit.php"   method="post">
+<div id="mid">
+<div id="midleft">
+    <br>
 
-    <label for "amendid">Customer Number </label>
-    <input type = "text" name = "customerID" id = "customerID"
+    <table>
+        <tr> <td>
+                Select Name From List</td> </tr>
+        <tr>
+    <td> <?php include 'opencustnamesearch.php'; ?>
+    </td> </tr>
+    </table>
+</div>
+<div id="midcen">
+<form  action="OpenDeposit.php"   method="post">
+    <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+
+    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
-    <label for "amendfirstname">First Name </label>
-    <input readonly type = "text" name = "firstname" id = "firstname"
+
+
+    <label for "firstname" >First Name </label>
+    <input  class="InputAddOn-field" readonly type = "text" name = "firstname" id = "firstname"
            value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>  ">
-    <label for "amendlastname">Surname </label>
-    <input readonly type = "text" name = "surname" id = "surname"
+        <label for "amendlastname">Surname </label>
+    <input class="InputAddOn-field" readonly type = "text" name = "surname" id = "surname"
            value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?> ">
     <label for "amendDOB">Date of Birth </label>
-    <input readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
+    <input class="InputAddOn-field" readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
            value="<?php if(ISSET($_SESSION['dateOfBirth']))  {
                $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?> ">
     <label for "addressLine1">Address Line 1</label>
-    <input readonly type = "text" name = "addressLine1" id = "addressLine1"
+    <input class="InputAddOn-field" readonly type = "text" name = "addressLine1" id = "addressLine1"
            value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?> ">
     <label for "addressLine2">Address Line 2 </label>
-    <input readonly type = "text" name = "addressLine2" id = "addressLine2"
+    <input class="InputAddOn-field" readonly type = "text" name = "addressLine2" id = "addressLine2"
            value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?> ">
     <label for "addTown">Town </label>
-    <input readonly type = "text" name = "addTown" id = addTown
+    <input class="InputAddOn-field" readonly type = "text" name = "addTown" id = addTown
            value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?> ">
     <label for "addCounty">County </label>
-    <input readonly type = "text" name = "addCounty" id = "addCounty"
+    <input class="InputAddOn-field" readonly type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+
     <br><br>
-    <input type = "submit" name="search" id="search" value = "Search Customers" >
-    <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
-    <input type="submit"  name="reset" id="reset"  value="reset">
-
-
-<br><br><br>
-    <label for "close1">close1 </label>
-    <input readonly type = "text" name = "close1" id = "close1"
-           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
-    <label for "close2">close2 </label>
-    <input readonly type = "text" name = "close2" id = "close2"
-           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+    <input class="InputAddOn-field" type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
+    <input class="InputAddOn-field" type="submit"  name="reset" id="reset"  value="reset">
 </form>
 </div>
-<div id="midcen2">
-<?php if(ISSET($_SESSION['results']))
-{
-    $tempARR = $_SESSION['results'];
-    echo "<table>
-		<tr> <th> Close Account </th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
+    <div id="midright" >
 
+        <form  action="OpenDeposit.php"   method="post">
+            <input readonly type="text" name="accountID" id="accountID"
+                   value="<?php if(isset($_SESSION['nextaccountID'])) echo $_SESSION['nextaccountID'] ?>">
+            <br>
 
-
-    {
-        foreach($tempARR as $row)
-        {
-
-           ?>
-
-            <td> <form name="formstuff" action="CloseDeposit.php" method="post">
-                    <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['accountID']; ?>">
-                    <input type="submit" value="Close" id="closeAcc" name="closeAcc" title="Click here to close the Account">
-                </form></td>
-    <?php
-
-            foreach($row as $rowItem)
-            {
-                echo
-                    "<td>".$rowItem."</td>";
-
-            }
-            echo "</tr>";
-        }
-        echo "</table>";
-
-
-
-
-
- }
-}
-else{
-    echo "";
-}
-?>
+            <label for "deposit"> Opening Deposit </label> <input type="text" name="deposit" id="deposit" >
+            <!-- deposit can not be empty -->
+            <input type="submit" value="addDeposit" name="addDeposit" id="addDeposit">
+        </form>
+    </div>
 </div>
+
+
+
+</div> <!-- contain div -->
 </body>
 </html>

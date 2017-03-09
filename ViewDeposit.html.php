@@ -1,10 +1,18 @@
 <?php session_start();
+if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/ViewDeposit.html.php')
+{
+    $_SESSION = array();
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="Cillian.css" type="text/css">
+
+
     <style>
+
         form{
             margin: 1em;
             max-width: 500px;
@@ -45,16 +53,21 @@
                document.getElementById("" + id + 1).style.display = 'none';
            }
         }
+        window.onload = function(){
 
+            document.getElementById('listbox').selectedIndex = -1;
+        }
     </script>
 
 
 </head>
-<body onload="unset();">
-
+<body>
+<div id="top">
 <h1> View Deposit Account</h1>
 <h4> Please select a person from the list or search by Customer Number </h4>
-
+</div>
+<div id="midleft"></div>
+<div id="midcen1">
 <?php include 'viewcustnamesearch.php'; ?>
 <p id = "display"> </p>
 
@@ -91,6 +104,9 @@
     <input type="submit"  name="reset" id="reset"  value="reset">
 
 </form>
+</div>
+
+<div id="midcen2">
 <?php if(ISSET($_SESSION['results']))
 {
     $tempARR = $_SESSION['results'];
@@ -161,5 +177,6 @@ else{
     echo "";
 }
 ?>
+</div>
 </body>
 </html>
