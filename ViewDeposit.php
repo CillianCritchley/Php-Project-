@@ -2,8 +2,11 @@
 session_start();
 include 'db.inc.php';
 
-if(isset($_POST['search']))
+if(isset($_POST['searchCustomer']))
 {
+    $_SESSION['errorVarAcc'] ="";
+    $_SESSION['errorVarCust'] = "";
+
 
 
     $sql = "select firstname, surname, dateOfBirth, addressLine1, addressLine2
@@ -27,16 +30,64 @@ if($rowcount ==1)
         $_SESSION['addressLine2'] = $row['addressLine2'];
         $_SESSION['addTown']  = $row['addTown'];
         $_SESSION['addCounty'] = $row['addCounty'];
-
-
+        $_SESSION['accID'] = "";
     }
     else if ($rowcount ==0)
     {
-        echo "No Matching records";
+        $_SESSION['errorVarCust'] = "No such Customer found";
+
     }
 
-} //search if
+} //Customer Id search if
 
+else if(isset($_POST['searchAccount']))
+{
+
+    $_SESSION['accID'] = $_POST['accID'];
+
+    $sql = "select Customer.customerID, Customer.firstname, Customer.surname, Customer.dateOfBirth, Customer.addressLine1, Customer.addressLine2
+ ,Customer.addTown, Customer.addCounty, DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
+  DepositAccount.closed, Transactions.transactionID, Transactions.amount,  Transactions.type, Transactions.date from Customer Inner join CustomerAccounts on Customer.customerID = CustomerAccounts.customerID Inner join 
+   DepositAccount on CustomerAccounts.accountID = DepositAccount.depositAccountID 
+   Inner join Transactions on CustomerAccounts.accountID = Transactions.accountID where depositAccountID = ". $_POST['accID'];
+    /*
+    $sql = "select Customer.customerID, Customer.firstname, Customer.surname, Customer.dateOfBirth, Customer.addressLine1, Customer.addressLine2
+ ,Customer.addTown, Customer.addCounty, DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
+  DepositAccount.closed from Customer Inner join CustomerAccounts on Customer.customerID = CustomerAccounts.customerID Inner join 
+   DepositAccount on CustomerAccounts.accountID = DepositAccount.depositAccountID where depositAccountID = " . $_POST['accID'];
+*/
+    if(!$result = mysqli_query($con,$sql))
+    {
+        die("Error in querying database ". mysqli_error($con));
+    }
+
+    $rowcount = mysqli_affected_rows($con);
+
+    if($rowcount ==1)
+    {
+        $row = mysqli_fetch_array($result);
+        $_SESSION['customerID'] = $row['customerID'];
+        $_SESSION['firstname'] = $row['firstname'];
+        $_SESSION['surname'] = $row['surname'];
+        $_SESSION['dateOfBirth'] = $row['dateOfBirth'];
+        $_SESSION['addressLine1'] = $row['addressLine1'];
+        $_SESSION['addressLine2'] = $row['addressLine2'];
+        $_SESSION['addTown']  = $row['addTown'];
+        $_SESSION['addCounty'] = $row['addCounty'];
+
+        $_SESSION['results'][0] =  array("accountID" => $row['depositAccountID'], "balance" => $row['balance'],
+            "date" => $row['dateOpened']);
+        $_SESSION['tran'][0][0] = array("transactionID" => $row['transactionID'], "amount" => $row['amount'],
+            "type"  => $row['type'], "date" => $row['date']);
+        $_SESSION['errorVarAcc'] ="";
+        $_SESSION['errorVarCust'] ="";
+    }
+    else if ($rowcount ==0)
+    {
+        $_SESSION['errorVarAcc'] = "No such Account found";
+    }
+
+} //Account Id search if
 else if(Isset($_POST['confirm']))
 {
     $_SESSION = array();
@@ -45,7 +96,8 @@ else if(Isset($_POST['confirm']))
     $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
   DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
     ON DepositAccount.depositAccountID = CustomerAccounts.accountID
-    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = " . $_POST['customerID'] . " AND closed = 0" ;
+    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID
+     WHERE Customer.customerID = " . $_POST['customerIDHide'] . " AND closed = 0" ;
 
     if(!$result = mysqli_query($con,$sql))
     {
@@ -53,7 +105,7 @@ else if(Isset($_POST['confirm']))
     }
 
 
-    $_SESSION['customerID'] = $_POST['customerID'];
+    $_SESSION['customerID'] = $_POST['customerIDHide'];
     $_SESSION['firstname'] = $_POST['firstname'];
     $_SESSION['surname'] = $_POST['surname'];
     $_SESSION['addressLine1'] = $_POST['addressLine1'];
@@ -64,9 +116,11 @@ else if(Isset($_POST['confirm']))
 
    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
    $index=0;
+
     foreach($_SESSION['results'] as $arrRow)
     {
-        $sql = "Select * from Transactions where accountID = " . $_SESSION['results'][$index]['depositAccountID'] . " order by transactionID desc limit 4";
+        $sql = "Select * from Transactions where accountID = " . $_SESSION['results'][$index]['depositAccountID'] . "
+         order by transactionID desc limit 4";
 
         if(!$transactions = mysqli_query($con,$sql))
         {
@@ -89,14 +143,7 @@ else if(Isset($_POST['confirm']))
 // need  rows from transactions table relating to accountID
 
 }
-else if(isset($_POST['closeAcc'])) {
 
-    $sql = "update DepositAccount set closed=1 WHERE depositAccountID = " . $_POST['depAccID'];
-   if(! mysqli_query($con,$sql)){
-       die("Error closing Deposit Account".mysqli_error($con));
-   }
-    $_SESSION = array();
-}
 
 else if(isset($_POST['reset'])){
 

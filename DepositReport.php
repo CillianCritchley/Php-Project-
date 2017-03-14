@@ -45,7 +45,7 @@ else if(Isset($_POST['confirm']))
     $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
   DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
     ON DepositAccount.depositAccountID = CustomerAccounts.accountID
-    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = " . $_POST['customerID'] . " AND closed = 0" ;
+    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = " . $_POST['customerIDHide'] . " AND closed = 0" ;
 
     if(!$result = mysqli_query($con,$sql))
     {

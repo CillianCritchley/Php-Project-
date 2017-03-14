@@ -2,36 +2,85 @@
     margin: 0;
     padding: 0;
 }
-#contain {
-    display: flex;
-    flex-direction: column;
+
+html,body{
+
+    height:100%;
+    width:100%;
 }
 #top{
+    height: 14%;
     border-style: solid;
 }
 #mid {
-    align-self: center;
+    height: 85%;
     border-style: dotted;
+    border-color: gold;
     display: flex;
-    justify-content: center;
 
+}
+
+#left
+{
+    display: flex;
+    height: 90%;
+    align-self: center;
+    border-style: groove;
+    font-size: large;
+    align-items: center;
+    flex: 1;
 }
 #midleft
 {
-    border-style: groove;
-}
-#midcen
-{
+    display: flex;
+    height: 90%;
+    align-self: center;
     border-style: dashed;
+    flex:1.5;
+    align-items: center;
+
 }
 #midright {
+    display:flex;
+    align-self: center;
+    height: 90%;
     border-style: double;
+    flex:3;
+    align-items: center;
+    justify-content: center;
 }
+#right{
+    display:flex;
+    height: 90%; /* maybe dont allow this for the bottom div */
+    align-self: center;
+    border-style: groove;
+    background-color: #419bc1;
+    font-size: large;
+    flex:3;
+    justify-content: center;
+}
+#rightTop{
+    display:flex;
+    align-self: center;
+    flex: 1;
+    background-color: yellowgreen;
+}
+
+#rightBottom{
+    display:flex;
+    flex:2;
+    background-color: #a5c5f1;
+}
+#formRow{
+    padding: 0.1em ;
+}
+
 
 .InputAddOn-field,
 .InputAddOn-item {
     border: 3px solid rgba(147, 128, 108, 0.25);
-    padding: 0.5em 0.75em;
+    padding: 0.5em ;
     border-radius: 2px 1px 1px 2px;
+font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 
 }

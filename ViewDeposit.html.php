@@ -33,6 +33,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             result = sel.options[sel.selectedIndex].value;
             var personDetails = result.split(',');
             document.getElementById("customerID").value = personDetails[0];
+            document.getElementById("customerIDHide").value = personDetails[0];
+
             document.getElementById("firstname").value = personDetails[1];
             document.getElementById("surname").value = personDetails[2];
             document.getElementById("addressLine1").value = personDetails[4];
@@ -40,6 +42,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             document.getElementById("addTown").value = personDetails[6];
             document.getElementById("addCounty").value = personDetails[7];
             document.getElementById("dateOfBirth").value = personDetails[3];
+
 
             return false;
         }
@@ -66,15 +69,48 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 <h1> View Deposit Account</h1>
 <h4> Please select a person from the list or search by Customer Number </h4>
 </div>
-<div id="midleft"></div>
-<div id="midcen1">
-<?php include 'viewcustnamesearch.php'; ?>
+<div id="mid">
+
+<div id="left">
+    <form  action="ViewDeposit.php"   method="post">
+        <table>
+            <tr> <td>
+                    <font size="5">  Select Name From List </font> </td> </tr>
+            <tr>
+                <td> <?php include 'viewcustnamesearch.php'; ?> Or
+                </td> </tr>
+            <tr> <td>  <label for "customerID" > Search By Customer ID </label>
+                </td> </tr>
+
+            <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
+                                value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+                </td></tr>
+            <tr> <td>      <button type="submit" name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
+                </td></tr>
+            <tr> <td> <?php if(isset($_SESSION['errorVarCust'])) echo $_SESSION['errorVarCust']?></td></tr>            <tr> <td>  <label for "customerID" > Search By Account ID </label>
+                </td> </tr>
+            <tr> </form>
+    <form action="ViewDeposit.php" method="post"> </tr>
+            <tr> <td>    <input class="InputAddOn-field" type = "text" name = "accID" id = "accID"
+                                value="<?php if(ISSET($_SESSION['accID'])) echo htmlspecialchars($_SESSION['accID'])?> ">
+                </td></tr>
+
+            <tr> <td>      <button type="submit" name="searchAccount" id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
+                </td></tr>
+            <tr> <td> </td></tr>
+            <tr> <td> </td></tr>
+            <tr> <td> <?php if(isset($_SESSION['errorVarAcc'])) echo $_SESSION['errorVarAcc']?> </td></tr>
+
+
+        </table>
+    </form>
+</div>
+<div id="midleft">
 <p id = "display"> </p>
 
 <form  action="ViewDeposit.php"   method="post">
 
-    <label for "amendid">Customer Number </label>
-    <input type = "text" name = "customerID" id = "customerID"
+    <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
     <label for "amendfirstname">First Name </label>
     <input readonly type = "text" name = "firstname" id = "firstname"
@@ -105,8 +141,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 </form>
 </div>
-
-<div id="midcen2">
+<div id="right">
+    <div id="rightTop">
 <?php if(ISSET($_SESSION['results']))
 {
     $tempARR = $_SESSION['results'];
@@ -116,11 +152,12 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 
 
-    {
+
         $index=1;
 
         foreach($tempARR as $row)
         {
+
            ?>
             <!-- table row for each row in the $tempARR array -->
           <!-- <tr onclick="fillTable( php echo $index ) -->
@@ -129,6 +166,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
     <?php
             foreach($row as $rowItem)
             {
+
                 // fill each column of the row
                 echo
                     "<td>".$rowItem."</td>";
@@ -160,7 +198,6 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 echo "</table> </td> </tr>";
                 ?>
 
-
 <?php
             $index++;
 
@@ -171,12 +208,16 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 
 
- }
+
 }
 else{
     echo "";
 }
 ?>
+    </div>
+    <div id="rightBottom"> asd</div>
+</div>
+
 </div>
 </body>
 </html>

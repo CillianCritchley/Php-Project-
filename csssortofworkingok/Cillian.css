@@ -12,7 +12,6 @@
     border-style: solid;
 }
 #mid {
-    align-self: center;
     border-style: dotted;
     display: flex;
     justify-content: center;

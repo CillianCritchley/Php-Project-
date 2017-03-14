@@ -21,6 +21,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             margin-top : 1em;
             text-align: right;
         }
+
     </style>
     <script>
         function  populate()
@@ -30,6 +31,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             result = sel.options[sel.selectedIndex].value;
             var personDetails = result.split(',');
             document.getElementById("customerID").value = personDetails[0];
+            document.getElementById("customerIDHide").value = personDetails[0];
             document.getElementById("firstname").value = personDetails[1];
             document.getElementById("surname").value = personDetails[2];
             document.getElementById("addressLine1").value = personDetails[4];
@@ -65,15 +67,32 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 <h1> View Deposit Account</h1>
 <h4> Please select a person from the list or search by Customer Number </h4>
 </div>
-<div id="midleft"></div>
-<div id="midcen1">
-<?php include 'reportcustnamesearch.php'; ?>
-<p id = "display"> </p>
+<div id="mid">
+<div id="left">
+    <form  action="DepositReport.php"   method="post">
+    <table>
+        <tr> <td>
+                <font size="5">  Select Name From List </font> </td> </tr>
+        <tr>
+            <td> <?php include 'reportcustnamesearch.php'; ?> Or
+            </td> </tr>
+        <tr> <td>  <label for "customerID" > Search By Customer ID </label>
+            </td> </tr>
+
+        <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
+                            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+            </td></tr>
+        <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+            </td></tr>
+        <tr> <td> </td></tr>
+
+    </table>
+    </form>
+</div>
+<div id="midleft">
 
 <form  action="DepositReport.php"   method="post">
-
-    <label for "amendid">Customer Number </label>
-    <input type = "text" name = "customerID" id = "customerID"
+    <input  type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
     <label for "amendfirstname">First Name </label>
     <input readonly type = "text" name = "firstname" id = "firstname"
@@ -104,7 +123,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 </form>
 </div>
-<div id="midcen2">
+<div id="midright">
 <?php if(ISSET($_SESSION['results']) && isset($_SESSION['tran']))
 {
     $tempARR = $_SESSION['results'];
@@ -176,5 +195,7 @@ else{
 }
 ?>
             </div>
+
+</div>
 </body>
 </html>

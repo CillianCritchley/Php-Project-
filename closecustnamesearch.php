@@ -6,7 +6,7 @@ $sql = "SELECT customerID, firstname, surname, dateOfBirth, addressLine1,
 */
 $sql = "SELECT  Customer.customerID, Customer.firstName, Customer.surname, Customer.addressLine1, Customer.addressLine2, Customer.addTown, Customer.addCounty, 
 Customer.dateOfBirth, DepositAccount.depositAccountID, DepositAccount.balance, DepositAccount.closed FROM Customer INNER JOIN CustomerAccounts ON Customer.customerID=CustomerAccounts.customerID 
-INNER JOIN DepositAccount ON CustomerAccounts.accountID=DepositAccount.depositAccountID  AND deleted IN ('0') GROUP BY surname";
+INNER JOIN DepositAccount ON CustomerAccounts.accountID=DepositAccount.depositAccountID  AND closed IN ('0') GROUP BY surname";
 $result = mysqli_query($con,$sql);
 if(!$result = mysqli_query($con,$sql))
 {

@@ -31,6 +31,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             result = sel.options[sel.selectedIndex].value;
             var personDetails = result.split(',');
             document.getElementById("customerID").value = personDetails[0];
+            document.getElementById("customerIDHide").value = personDetails[0];
+
             document.getElementById("firstname").value = personDetails[1];
             document.getElementById("surname").value = personDetails[2];
             document.getElementById("addressLine1").value = personDetails[4];
@@ -53,19 +55,37 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 </head>
 <body >
 <div id="top">
-<h1> Close Deposit Account</h1>
-<h4> Please select a person from the list or search by Customer Number </h4>
-</div>
-<div id="midleft"></div>
+<h1> Close Deposit Account</h1>     the sql deleted = 0 thing isnt working
 
-<div id="midcen1">
-<?php include 'closecustnamesearch.php'; ?>
-<p id = "display"> </p>
+    <h4> Please select a person from the list or search by Customer Number </h4>
+</div>
+<div id="mid">
+
+        <div id="left" > <form  action="OpenDeposit.php"   method="post">
+            <table>
+                <tr> <td>
+                        <font size="5">  Select Name From List </font> </td> </tr>
+                <tr>
+                    <td> <?php include 'closecustnamesearch.php'; ?> Or
+                    </td> </tr>
+                <tr> <td>  <label for "customerID" > Search By Customer ID </label>
+                    </td> </tr>
+
+                <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
+                                    value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+                    </td></tr>
+                <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+                    </td></tr>
+                <tr> <td> </td></tr>
+
+            </table>
+        </form> </div>
+
+<div id="midleft">
 
 <form  action="CloseDeposit.php"   method="post">
 
-    <label for "amendid">Customer Number </label>
-    <input type = "text" name = "customerID" id = "customerID"
+    <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
     <label for "amendfirstname">First Name </label>
     <input readonly type = "text" name = "firstname" id = "firstname"
@@ -96,15 +116,10 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 
 <br><br><br>
-    <label for "close1">close1 </label>
-    <input readonly type = "text" name = "close1" id = "close1"
-           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
-    <label for "close2">close2 </label>
-    <input readonly type = "text" name = "close2" id = "close2"
-           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+
 </form>
 </div>
-<div id="midcen2">
+<div id="midright">
 <?php if(ISSET($_SESSION['results']))
 {
     $tempARR = $_SESSION['results'];
@@ -145,6 +160,10 @@ else{
     echo "";
 }
 ?>
+</div>
+  <!--  <div id="right">
+
+    </div> -->
 </div>
 </body>
 </html>

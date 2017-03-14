@@ -35,9 +35,8 @@ div.sidebar{
 
 div.content{
 	background-color: #edf5ff;   /* Really light */
-	width: 88%;
+	width: auto ;
 	height: 92%;
-	float: left;
 	overflow: auto;              /*The content will have a scroll bar if there is too much content to display*/
 }
 
