@@ -35,6 +35,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             result = sel.options[sel.selectedIndex].value;
             var personDetails = result.split(',');
             document.getElementById("customerID").value = personDetails[0];
+            document.getElementById("customerIDHide").value = personDetails[0];
             document.getElementById("firstname").value = personDetails[1];
             document.getElementById("surname").value = personDetails[2];
             document.getElementById("addressLine1").value = personDetails[4];
@@ -91,7 +92,10 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
         <div id="midleft">
 
                 <form  action="OpenDeposit.php"   method="post">
-
+                    <div id="formRow">
+                        <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
+                           value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+                    </div>
               <div id="formRow">
                   <label for "firstname" >First Name </label>
                   <input  class="InputAddOn-field" readonly type = "text" name = "firstname" id = "firstname"
@@ -136,7 +140,9 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <input readonly type="text" name="accountID" id="accountID"
                        value="<?php if(isset($_SESSION['nextaccountID'])) echo $_SESSION['nextaccountID'] ?>">
                 <br>
-
+                <input readonly type="text" name="accountID22" id="accountID22"
+                       value="<?php if(isset($_SESSION['customerID'])) echo $_SESSION['customerID'] ?>">
+                <br>
                 <label for "deposit"> Opening Deposit </label> <input type="text" name="deposit" id="deposit" >
                 <!-- deposit can not be empty -->
                 <input type="submit" value="addDeposit" name="addDeposit" id="addDeposit">

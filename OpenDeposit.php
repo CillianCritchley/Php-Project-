@@ -49,7 +49,7 @@ else if(Isset($_POST['confirm']))
     $row = mysqli_fetch_array($result);
     $max = $row[0];
     $_SESSION['nextaccountID'] = $max + 1;
-    $_SESSION['customerID'] = $_POST['customerID'];
+    $_SESSION['customerID'] = $_POST['customerIDHide'];
     $_SESSION['firstname'] = $_POST['firstname'];
     $_SESSION['surname'] = $_POST['surname'];
     $_SESSION['addressLine1'] = $_POST['addressLine1'];
@@ -67,7 +67,7 @@ else if(isset($_POST['addDeposit'])) {
     if (!mysqli_query($con, $sql)) {
         die("error connecting to depositaccount table " . mysqli_error($con));
     }
-    $sql = "Insert into CustomerAccounts (customerID, accountID) values ($_SESSION[customerID],$_SESSION[nextaccountID])";
+    $sql = "Insert into CustomerAccounts (customerID, accountID) values ($_SESSION[customerID],$_SESSION[nextaccountID] )";
     if (!mysqli_query($con, $sql)) {
         die("error connecting to CustomerAccounts table " . mysqli_error($con));
     }

@@ -46,10 +46,14 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
             return false;
         }
+/* len = number of rows to be filled as seen down */
 
-        function fillTable(id)
+        function fillTable(id,len)
         {
+
+
            if(document.getElementById("" + id + 1).style.display=='none') {
+
                document.getElementById("" + id + 1).style.display = 'table-row';
            }
            else{
@@ -151,14 +155,13 @@ echo "<table>
 		<tr> <th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
 
 $index = 1;
-
 foreach ($tempARR as $row)
 {
 
 ?>
         <!-- table row for each row in the $tempARR array -->
         <!-- <tr onclick="fillTable( php echo $index ) -->
-        <tr onclick="fillTable(<?php echo $index ?>)" id="<?php echo $index ?>">
+        <tr onclick="fillTable(<?php echo $index ?>, <?php echo count($tempARR); ?>)" id="<?php echo $index ?>">
 
             <?php
             foreach ($row as $rowItem) {
