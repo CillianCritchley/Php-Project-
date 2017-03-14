@@ -59,14 +59,14 @@ html,body{
     flex:3;
     justify-content: center;
 }
-#rightTop{
+#rightleft{
     display:flex;
     align-self: center;
     flex: 1;
     background-color: yellowgreen;
 }
 
-#rightBottom{
+#rightright{
     display:flex;
     flex:2;
     background-color: #a5c5f1;
