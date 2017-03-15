@@ -5,6 +5,7 @@ include 'db.inc.php';
 if(isset($_POST['search']))
 {
 
+    session_unset();
 
     $sql = "select firstname, surname, dateOfBirth, addressLine1, addressLine2
  ,addTown, addCounty from Customer where customerID = " . $_POST['customerID'];
@@ -53,7 +54,7 @@ else if(Isset($_POST['confirm']))
     }
 
 
-    $_SESSION['customerID'] = $_POST['customerID'];
+    $_SESSION['customerID'] = $_POST['customerIDHide'];
     $_SESSION['firstname'] = $_POST['firstname'];
     $_SESSION['surname'] = $_POST['surname'];
     $_SESSION['addressLine1'] = $_POST['addressLine1'];
@@ -62,7 +63,7 @@ else if(Isset($_POST['confirm']))
     $_SESSION['addCounty'] = $_POST['addCounty'];
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
-   $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
+   $_SESSION['resultsReport'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
 
 
 
@@ -71,6 +72,41 @@ else if(Isset($_POST['confirm']))
 }
 else if(isset($_POST['genReport']))
 {
+    session_unset();
+    $sql = "select * from Customer where CustomerID = ".$_POST['customerIDHide2'];
+
+    if(!$result = mysqli_query($con,$sql))
+    {
+        die("Error in querying database").mysqli_error($con);
+    }
+
+    $row = mysqli_fetch_array($result);
+    $_SESSION['customerID'] = $_POST['customerIDHide2'];
+    $_SESSION['firstname'] = $row['firstName'];
+    $_SESSION['surname'] = $row['surname'];
+    $_SESSION['dateOfBirth'] = $row['dateOfBirth'];
+    $_SESSION['addressLine1'] = $row['addressLine1'];
+    $_SESSION['addressLine2'] = $row['addressLine2'];
+    $_SESSION['addTown']  = $row['addTown'];
+    $_SESSION['addCounty'] = $row['addCounty'];
+
+    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
+  DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
+    ON DepositAccount.depositAccountID = CustomerAccounts.accountID
+    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = "
+        . $_POST['customerIDHide2'] . " AND closed = 0" ;
+
+    if(!$result = mysqli_query($con,$sql))
+    {
+        die("Error in querying database ".mysqli_error($con));
+    }
+
+
+
+    $_SESSION['resultsReport'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+
+
     $sql= "SELECT Transactions.transactionID, Transactions.amount, Transactions.type, Transactions.date from Transactions 
     where accountID = ". $_POST['radio'];
 
@@ -78,7 +114,7 @@ else if(isset($_POST['genReport']))
     {
         die("Error in querying database ".mysqli_error($con));
     }
-    $_SESSION['tran'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
+    $_SESSION['trans'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
 }
 else if(isset($_POST['reset'])){

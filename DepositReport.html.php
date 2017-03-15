@@ -124,13 +124,15 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 </div>
     <div id="rightReport">
 <div id="righttop">
-<?php if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
+<?php if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
 {
-$tempARR = $_SESSION['results'];
-echo "    <form action='DepositReport.php' method='post'> 
+$tempARR = $_SESSION['resultsReport'];
+?>   <form action='DepositReport.php' method='post'>
+        <input  type = "hidden" name = "customerIDHide2" id = "customerIDHide2"
+                value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
         <table>
-		<tr> <th> Select</th><th></th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
-
+		<tr> <th> Select</th><th></th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>
+<?php
 
 {
 
@@ -158,7 +160,7 @@ foreach ($tempARR as $row)
         <button type = 'submit' name='genReport'> generate report </input> </form> " ;
         }
         }
-        else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
+        else if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) == 0 )
         {
             echo "Customer has no Deposit Accounts";
         }
@@ -178,7 +180,7 @@ foreach ($tempARR as $row)
     <div id="reportContentDiv">
 
                <?php
-               if(isset($_SESSION['tran']))
+               if(isset($_SESSION['trans']))
                {
                     ?> <table>
                         <tr>
@@ -190,7 +192,7 @@ foreach ($tempARR as $row)
 
 
                         <?php
-                        foreach ($_SESSION['tran'] as $transrow) {
+                        foreach ($_SESSION['trans'] as $transrow) {
                             echo "<tr>";
                             foreach($transrow as $transactionindex)
                             {

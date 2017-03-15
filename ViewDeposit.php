@@ -108,7 +108,6 @@ else if(Isset($_POST['confirm']))
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
-    print_r($_SESSION['results']);
    $index=0;
 
     foreach($_SESSION['results'] as $arrRow)
