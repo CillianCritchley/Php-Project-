@@ -33,8 +33,7 @@ if($rowcount ==1)
     }
     else if ($rowcount ==0)
     {
-        echo "No Matching records";
-    }
+        $_SESSION['errorVarCustReport'] = "No such Customer found";    }
 
 } //search if
 

@@ -1,7 +1,7 @@
 <?php session_start();
-if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/DepositReport.html.php')
+if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/DepositReport.html.php')
 {
-    $_SESSION = array();
+    session_unset();
 }
 ?>
 
@@ -86,6 +86,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             </td></tr>
         <tr> <td> </td></tr>
 
+        <tr> <td> <?php if(isset($_SESSION['errorVarCustReport'])) echo $_SESSION['errorVarCustReport']?> </td></tr>
+
     </table>
     </form>
 </div>
@@ -124,6 +126,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 </div>
     <div id="rightReport">
 <div id="righttop">
+    <div id="left">
 <?php if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
 {
 $tempARR = $_SESSION['resultsReport'];
@@ -134,7 +137,7 @@ $tempARR = $_SESSION['resultsReport'];
 		<tr> <th> Select</th><th></th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>
 <?php
 
-{
+
 
 foreach ($tempARR as $row)
 {
@@ -158,24 +161,36 @@ foreach ($tempARR as $row)
         }    // outer loop
         echo "</table> 
         <button type = 'submit' name='genReport'> generate report </input> </form> " ;
-        }
+
         }
         else if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) == 0 )
         {
             echo "Customer has no Deposit Accounts";
         }
         ?>
+    </div>
+    <div id="right">
+        <h2> PUT DATE SEARCH HERE</h2>
+    </div>
 </div>
 
 <div id="rightbottom">
-    <div id="reportHeaderDiv">  <TABLE >
-            <TR>
-                <TD> First Half of Text</TD> </TR>
-     <tr>           <TD> Image</TD>
-                <TD> Second Half of Text</TD>
-            </TR>
-        </TABLE>
-
+    <div id="reportHeaderDiv">
+        <?php
+        if(isset($_SESSION['trans'])) {
+            ?>
+            <TABLE>
+                <TR>
+                    <TD> First Half of Text</TD>
+                </TR>
+                <tr>
+                    <TD> Image</TD>
+                    <TD> Second Half of Text</TD>
+                </TR>
+            </TABLE>
+            <?php
+        }
+        ?>
     </div>
     <div id="reportContentDiv">
 

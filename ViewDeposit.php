@@ -108,28 +108,56 @@ else if(Isset($_POST['confirm']))
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
-   $index=0;
-
-    foreach($_SESSION['results'] as $arrRow)
-    {
-        $sql = "Select * from Transactions where accountID = " . $_SESSION['results'][$index]['depositAccountID'] . "
-         order by transactionID desc limit 4";
-
-        if(!$transactions = mysqli_query($con,$sql))
-        {
-            die("Error in querying database ".mysqli_error($con));
-        }
-        $transactions = mysqli_fetch_all($transactions,MYSQLI_ASSOC);
-        $_SESSION['tran'][$index] = $transactions;
-
-        $index++;
-
-
-    }
 
 
 }
 
+else if(isset($_POST['ViewDetails']))
+{
+    session_unset();
+    $sql = "select * from Customer where CustomerID = ".$_POST['customerIDHide2'];
+
+    if(!$result = mysqli_query($con,$sql))
+    {
+        die("Error in querying database").mysqli_error($con);
+    }
+
+    $row = mysqli_fetch_array($result);
+    $_SESSION['customerID'] = $_POST['customerIDHide2'];
+    $_SESSION['firstname'] = $row['firstName'];
+    $_SESSION['surname'] = $row['surname'];
+    $_SESSION['dateOfBirth'] = $row['dateOfBirth'];
+    $_SESSION['addressLine1'] = $row['addressLine1'];
+    $_SESSION['addressLine2'] = $row['addressLine2'];
+    $_SESSION['addTown']  = $row['addTown'];
+    $_SESSION['addCounty'] = $row['addCounty'];
+
+    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
+  DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
+    ON DepositAccount.depositAccountID = CustomerAccounts.accountID
+    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = "
+        . $_POST['customerIDHide2'] . " AND closed = 0" ;
+
+    if(!$result = mysqli_query($con,$sql))
+    {
+        die("Error in querying database ".mysqli_error($con));
+    }
+
+
+
+    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+
+
+    $sql= "SELECT Transactions.transactionID, Transactions.amount, Transactions.type, Transactions.date from Transactions 
+    where accountID = ". $_POST['radio'];
+
+    if(!$result = mysqli_query($con,$sql))
+    {
+        die("Error in querying database ".mysqli_error($con));
+    }
+    $_SESSION['tran'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
+}
 
 else if(isset($_POST['reset'])){
 

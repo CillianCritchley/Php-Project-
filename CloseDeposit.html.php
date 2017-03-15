@@ -1,5 +1,5 @@
 <?php session_start();
-if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/CloseDeposit.html.php')
+if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset($_SESSION['customerID']))  && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/CloseDeposit.html.php')
 {
     $_SESSION = array();
 }

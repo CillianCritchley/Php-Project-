@@ -1,7 +1,7 @@
 <?php session_start();
-if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/ViewDeposit.html.php')
+if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset($_SESSION['customerID']))  && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/ViewDeposit.html.php')
 {
-    $_SESSION = array();
+    session_unset();
 }
 ?>
 
@@ -145,91 +145,118 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 </form>
 </div>
-<div id="right">
-    <div id="rightleft">
+    <div id="rightReport">
+        <div id="righttop">
 <?php if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
 $tempARR = $_SESSION['results'];
-$trans = $_SESSION['tran'];
-echo "<table>
-		<tr> <th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
-
-$index = 1;
-foreach ($tempARR as $row)
-{
-
 ?>
-        <!-- table row for each row in the $tempARR array -->
-
-        <tr onclick="fillTable(<?php echo $index ?>, <?php echo count($tempARR); ?>)" id="<?php echo $index ?>">
-
-            <?php
-            foreach ($row as $rowItem) {
-
-                // fill each column of the row
-                echo
-                    "<td>" . $rowItem . "</td>";
-
-            }   //inner loop
-
-            // end of table row
-            echo "</tr><tr><td colspan=100%></td></tr>";
+            <form action='ViewDeposit.php' method='post'>
+                <input type="hidden" name="customerIDHide2" id="customerIDHide2"
+                       value="<?php if (ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID']) ?> ">
+                <table>
+                    <tr>
+                        <th> Select</th>
+                        <th></th>
+                        <th> Account ID</th>
+                        <th>Balance</th>
+                        <th> Date Opened</th>
+                    </tr>
+                    <?php
 
 
-            $index++;
-            }    // outer loop
-            echo "</table>";
+                    foreach ($tempARR as $row)
+                    {
+
+                    ?>
+                    <!-- table row for each row in the $tempARR array -->
+
+                    <tr>
+                        <!-- give each radio button the value of the account ID associated with this row -->
+                        <?php echo "<td> <input type=\"radio\" name='radio' value=".$row['depositAccountID'].">  </td>";
 
 
-            ?>
-    </div>
-    <div id="rightright">
-        <table>
-            <?php
-            $index = 1;
-            foreach ($tempARR as $row) {
-            ?>
 
-            <tr id="<?php echo $index ?>1" style="display:none">
-                <td colspan=100%>
-                    <table>
+                        foreach ($row as $rowItem) {
 
-                        <tr>
-                            <th> Transaction ID</th>
-                            <th> Amount</th>
-                            <th> Date</th>
-                            <th> Type</th>
-                        </tr>
+                            // fill each column of the row
+                            echo
+                                "<td>" . $rowItem . "</td>";
+
+                        }   //inner loop
+
+                        // end of table row
+                        echo "</tr>";
 
 
+                        }    // outer loop
+                        echo "</table>
+
+                        <button type = 'submit' name='ViewDetails'> View Account Details </input> </form> " ;
+
+        }
+        else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
+        {
+            echo "Customer has no Deposit Accounts";
+        }
+        ?>
+
+        </div>
+        <div id="rightbottom">
+            <div id="reportHeaderDiv">
+                <table>
+                    <?php
+                    if(isset($_SESSION['tran'])) {
+                    ?>
+                        <TABLE>
+                            <TR>
+                                <TD> First Half of Text</TD>
+                            </TR>
+                            <tr>
+                                <TD> Image</TD>
+                                <TD> Second Half of Text</TD>
+                            </TR>
+                        </TABLE>
                         <?php
+                    }
+                    ?>
+            </div>
+            <div id="reportContentDiv">
+                <?php
+                if (isset($_SESSION['tran'])) {
+                ?>
+                <table>
+                    <tr>
+                        <th> Transaction ID</th>
+                        <th> Amount</th>
+                        <th> Date</th>
+                        <th> Type</th>
+                    </tr>
+                    <?php
 
-                        $trans = $_SESSION['tran'];
-                        foreach ($trans[$index - 1] as $transactionindex) {
-                            echo "<tr> 
-                            <td> " . $transactionindex['transactionID'] . "</td>
-                            <td> " . $transactionindex['amount'] . "</td>
-                            <td> " . $transactionindex['date'] . "</td>
-                            <td> " . $transactionindex['type'] . "</td>
-                          </tr>";
+
+                    foreach ($_SESSION['tran'] as $transrow) {
+                        echo "<tr> ";
+                        foreach ($transrow as $transactionindex) {
+                            {
+                                echo "   <td> " . $transactionindex . "</td> ";
+                            }
 
                         }
 
+                    }
 
-                        echo "</table> </td> </tr>";
-                        $index++;
+                        echo "</tr></table> </td> </tr>";
 
-                        }
-}
-                        else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
-                        {
-                            echo "Customer has no Deposit Accounts";
-                        }
+
+                }
 
         ?>
     </div> <!-- rightBottom div -->
 </div>  <!-- right div -->
 
 </div>  <!-- mid div -->
+</div>
+
 </body>
 </html>
