@@ -64,12 +64,16 @@ html,body{
     align-self: center;
     flex: 1;
     background-color: yellowgreen;
+    justify-content: center;
 }
 
 #rightright{
     display:flex;
     flex:2;
     background-color: #a5c5f1;
+    justify-content: center;
+    align-self: center;
+
 }
 #formRow{
     padding: 0.1em ;

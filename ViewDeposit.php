@@ -4,8 +4,7 @@ include 'db.inc.php';
 
 if(isset($_POST['searchCustomer']))
 {
-    $_SESSION['errorVarAcc'] ="";
-    $_SESSION['errorVarCust'] = "";
+    session_unset();
 
 
 
@@ -43,6 +42,7 @@ if($rowcount ==1)
 else if(isset($_POST['searchAccount']))
 {
 
+    session_unset();
     $_SESSION['accID'] = $_POST['accID'];
 
     $sql = "select Customer.customerID, Customer.firstname, Customer.surname, Customer.dateOfBirth, Customer.addressLine1, Customer.addressLine2
@@ -90,11 +90,10 @@ else if(isset($_POST['searchAccount']))
 } //Account Id search if
 else if(Isset($_POST['confirm']))
 {
-    $_SESSION = array();
+    session_unset();
 
 
-    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
-  DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
+    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened FROM DepositAccount INNER JOIN CustomerAccounts
     ON DepositAccount.depositAccountID = CustomerAccounts.accountID
     INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID
      WHERE Customer.customerID = " . $_POST['customerIDHide'] . " AND closed = 0" ;
@@ -115,6 +114,7 @@ else if(Isset($_POST['confirm']))
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
+    print_r($_SESSION['results']);
    $index=0;
 
     foreach($_SESSION['results'] as $arrRow)
@@ -131,16 +131,9 @@ else if(Isset($_POST['confirm']))
 
         $index++;
 
-     /*   $transactions = mysqli_fetch_array($transactions);
-        $_SESSION['tran'][$index] = array('transactionID' => $transactions[0], 'accountID' => $transactions[1],
-            'amount' => $transactions[2], 'type' => $transactions[3], 'date' => $transactions[4]);
-        echo $_SESSION['tran'][$index]['transactionID']."<br>";
-        $index++;
-     */
-    }
-   // echo $_SESSION['tran'][$index]['transactionID'];
 
-// need  rows from transactions table relating to accountID
+    }
+
 
 }
 
@@ -151,20 +144,6 @@ session_unset();
 }
     //go back to the calling form - with the values that we need to display in sessions variables, if a record was found
 header("Location: ViewDeposit.html.php");
-//or alternately use the following
-// echo "<script> window.location.href = 'view.html.php </script> ";
-
-/*
-$index = 0;
-while($row = mysqli_fetch_array($result))
-{
-//    echo $row['depositAccountID'] ." " . $row['balance'] . " " ;
-//  echo "<br>";
-$_SESSION['results'][$index] = array('accountID' => $row[0], 'balance' => $row[1], 'dateOpened' => $row[2]);
-$_SESSION['transactions'][$index] = array('tran1') =
-$index++;
-
-} */
 
 ?>
 

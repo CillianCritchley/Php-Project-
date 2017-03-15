@@ -55,13 +55,13 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 </head>
 <body >
 <div id="top">
-<h1> Close Deposit Account</h1>     the sql deleted = 0 thing isnt working
+<h1> Close Deposit Account</h1>
 
     <h4> Please select a person from the list or search by Customer Number </h4>
 </div>
 <div id="mid">
 
-        <div id="left" > <form  action="OpenDeposit.php"   method="post">
+        <div id="left" > <form  action="CloseDeposit.php"   method="post">
             <table>
                 <tr> <td>
                         <font size="5">  Select Name From List </font> </td> </tr>
@@ -74,16 +74,24 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
                                     value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
                     </td></tr>
-                <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+                <tr> <td>      <button type="submit" name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
                     </td></tr>
-                <tr> <td> </td></tr>
+                <tr> <td> <?php if(isset($_SESSION['errorVarCust'])) echo $_SESSION['errorVarCust']?></td></tr>
+                <tr> <td>     <tr> <td>  <label for "customerID" > Search By Account ID </label>
+                    </td> </tr></td></tr>
+                <tr> <td>    <input class="InputAddOn-field" type = "text" name = "accID" id = "accID"
+                                    value="<?php if(ISSET($_SESSION['accID'])) echo htmlspecialchars($_SESSION['accID'])?> ">
+                    </td></tr>
 
+                <tr> <td>      <button type="submit" name="searchAccount" id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
+                    </td></tr>
+                <tr> <td> <?php if(isset($_SESSION['errorVarAcc'])) echo $_SESSION['errorVarAcc']?> </td></tr>
             </table>
         </form> </div>
 
 <div id="midleft">
 
-<form  action="CloseDeposit.php"   method="post">
+<form  action="CloseDeposit.php"   id="ConfirmReset" method="post">
 
     <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
@@ -110,17 +118,28 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
     <input readonly type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
     <br><br>
-    <input type = "submit" name="search" id="search" value = "Search Customers" >
     <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
-    <input type="submit"  name="reset" id="reset"  value="reset">
 
+        <input type="submit"  name="reset" id="reset"  value="reset">
 
 <br><br><br>
 
 </form>
 </div>
-<div id="midright">
-<?php if(ISSET($_SESSION['results']))
+<div id="right">
+<div id="rightleft">
+<?php
+
+ if(isset($_SESSION['closeVar'])) {
+    echo "  <script> alert( \"$_SESSION[closeVar]\" );
+                                 
+                </script>
+                 ";
+    unset($_SESSION['closeVar']);
+}
+
+
+if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
     $tempARR = $_SESSION['results'];
     echo "<table>
@@ -129,13 +148,16 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
 
     {
+        $index=0;
         foreach($tempARR as $row)
         {
 
            ?>
 
-            <td> <form name="formstuff" action="CloseDeposit.php" method="post">
-                    <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['accountID']; ?>">
+         <tr>  <td> <form name="CloseDepositForm" id="CloseDepositForm" action="CloseDeposit.php" method="post">
+
+                    <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['depositAccountID']; ?>">
+                    <input type="hidden" id="index" name="index" value="<?php echo $index; ?>">
                     <input type="submit" value="Close" id="closeAcc" name="closeAcc" title="Click here to close the Account">
                 </form></td>
     <?php
@@ -147,6 +169,14 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
             }
             echo "</tr>";
+            ?>
+            <tr> <td>
+
+
+            </td></tr>
+
+    <?php
+            $index++;
         }
         echo "</table>";
 
@@ -156,14 +186,18 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
  }
 }
+else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
+{
+    echo "Customer has no Deposit Accounts";
+}
 else{
     echo "";
 }
 ?>
-</div>
-  <!--  <div id="right">
+</div>  <!-- div id ="rightleft"> -->
+</div> <!--  <div id="right"> -->
 
-    </div> -->
-</div>
+    </div>  <!-- <div id="mid"> -->
+
 </body>
 </html>

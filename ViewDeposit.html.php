@@ -91,7 +91,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 </td></tr>
             <tr> <td>      <button type="submit" name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
                 </td></tr>
-            <tr> <td> <?php if(isset($_SESSION['errorVarCust'])) echo $_SESSION['errorVarCust']?></td></tr>            <tr> <td>  <label for "customerID" > Search By Account ID </label>
+            <tr> <td> <?php if(isset($_SESSION['errorVarCust'])) echo $_SESSION['errorVarCust']?></td></tr>
+            <tr> <td>  <label for "customerID" > Search By Account ID </label>
                 </td> </tr>
             <tr> </form>
     <form action="ViewDeposit.php" method="post"> </tr>
@@ -139,7 +140,6 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
     <input readonly type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
     <br><br>
-    <input type = "submit" name="search" id="search" value = "Search Customers" >
     <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
     <input type="submit"  name="reset" id="reset"  value="reset">
 
@@ -160,7 +160,7 @@ foreach ($tempARR as $row)
 
 ?>
         <!-- table row for each row in the $tempARR array -->
-        <!-- <tr onclick="fillTable( php echo $index ) -->
+
         <tr onclick="fillTable(<?php echo $index ?>, <?php echo count($tempARR); ?>)" id="<?php echo $index ?>">
 
             <?php
