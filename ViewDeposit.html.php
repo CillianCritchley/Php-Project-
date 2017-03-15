@@ -147,7 +147,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 </div>
 <div id="right">
     <div id="rightleft">
-<?php if(ISSET($_SESSION['results']))
+<?php if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
 $tempARR = $_SESSION['results'];
 $trans = $_SESSION['tran'];
@@ -220,7 +220,12 @@ foreach ($tempARR as $row)
                         $index++;
 
                         }
+}
+                        else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
+                        {
+                            echo "Customer has no Deposit Accounts";
                         }
+
         ?>
     </div> <!-- rightBottom div -->
 </div>  <!-- right div -->

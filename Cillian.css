@@ -59,6 +59,18 @@ html,body{
     flex:3;
     justify-content: center;
 }
+/* so the report rightmost div can be justified by column instead of by row */
+#rightReport{
+    display:flex;
+    flex-direction: column;
+    height: 100%; /* maybe dont allow this for the bottom div */
+    align-self: center;
+    border-style: groove;
+    background-color: #419bc1;
+    font-size: large;
+    flex:3;
+    justify-content: center;
+}
 #rightleft{
     display:flex;
     align-self: center;
@@ -75,6 +87,44 @@ html,body{
     align-self: center;
 
 }
+#righttop{
+     display:flex;
+     flex:.6;
+     background-color: #a5c5f1;
+     justify-content: center;
+
+ }
+#rightbottom{
+    display:flex;
+    flex:2;
+    flex-direction: column;
+    width: 100%;
+    background-color: #a5c5f1;
+    align-self: center;
+    border-style: dashed;
+
+}
+
+#reportHeaderDiv{
+
+    display:flex;
+    align-self: flex-start;
+    width: 100%;
+    background-color: #FFFFFF;
+    justify-content: center;
+
+}
+
+#reportContentDiv{
+
+    display:flex;
+    width: 100%;
+    height: 100%;
+    background-color: #FFddFF;
+    justify-content: center;
+
+}
+
 #formRow{
     padding: 0.1em ;
 }

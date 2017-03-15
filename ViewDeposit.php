@@ -50,12 +50,7 @@ else if(isset($_POST['searchAccount']))
   DepositAccount.closed, Transactions.transactionID, Transactions.amount,  Transactions.type, Transactions.date from Customer Inner join CustomerAccounts on Customer.customerID = CustomerAccounts.customerID Inner join 
    DepositAccount on CustomerAccounts.accountID = DepositAccount.depositAccountID 
    Inner join Transactions on CustomerAccounts.accountID = Transactions.accountID where depositAccountID = ". $_POST['accID'];
-    /*
-    $sql = "select Customer.customerID, Customer.firstname, Customer.surname, Customer.dateOfBirth, Customer.addressLine1, Customer.addressLine2
- ,Customer.addTown, Customer.addCounty, DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
-  DepositAccount.closed from Customer Inner join CustomerAccounts on Customer.customerID = CustomerAccounts.customerID Inner join 
-   DepositAccount on CustomerAccounts.accountID = DepositAccount.depositAccountID where depositAccountID = " . $_POST['accID'];
-*/
+
     if(!$result = mysqli_query($con,$sql))
     {
         die("Error in querying database ". mysqli_error($con));
@@ -79,8 +74,7 @@ else if(isset($_POST['searchAccount']))
             "date" => $row['dateOpened']);
         $_SESSION['tran'][0][0] = array("transactionID" => $row['transactionID'], "amount" => $row['amount'],
             "type"  => $row['type'], "date" => $row['date']);
-        $_SESSION['errorVarAcc'] ="";
-        $_SESSION['errorVarCust'] ="";
+
     }
     else if ($rowcount ==0)
     {

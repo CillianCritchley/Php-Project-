@@ -117,85 +117,107 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
     <input readonly type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
     <br><br>
-    <input type = "submit" name="search" id="search" value = "Search Customers" >
     <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
     <input type="submit"  name="reset" id="reset"  value="reset">
 
 </form>
 </div>
-<div id="midright">
-<?php if(ISSET($_SESSION['results']) && isset($_SESSION['tran']))
+    <div id="rightReport">
+<div id="righttop">
+<?php if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
-    $tempARR = $_SESSION['results'];
-    $trans = $_SESSION['tran'];
-    echo "<table>
-		<tr> <th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
+$tempARR = $_SESSION['results'];
+echo "    <form action='DepositReport.php' method='post'> 
+        <table>
+		<tr> <th> Select</th><th></th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
 
 
+{
 
-    {
-        $index=1;
+foreach ($tempARR as $row)
+{
 
-        foreach($tempARR as $row)
-        {
-           ?>
-            <!-- table row for each row in the $tempARR array -->
-          <!-- <tr onclick="fillTable( php echo $index ) -->
-           <tr onclick="fillTable(<?php echo $index ?>)" id="<?php echo $index ?>">
+?>
+    <!-- table row for each row in the $tempARR array -->
+    <tr>
+            <!-- give each radio button the value of the account ID associated with this row -->
+        <?php echo "<td> <input type=\"radio\" name='radio' value=".$row['depositAccountID'].">  </td>";
 
-    <?php
-            foreach($row as $rowItem)
-            {
-                // fill each column of the row
-                echo
-                    "<td>".$rowItem."</td>";
+        foreach ($row as $rowItem) {
+            // fill each column of the row
+            echo
+                "<td>" . $rowItem . "</td>";
 
-            }   //inner loop
+        }   //inner loop
+        // end of table row
+        echo "</tr>";
 
-            // end of table row
-            echo "</tr>";
-
-            ?>
-
-            <tr id="<?php echo $index ?>1" style="display: none;">
-            <td colspan=100%>
-            <table>
-
-                <tr> <th> Transaction ID</th> <th> Amount </th> <th> Date </th> <th> Type</th> </tr>
-
-                <!-- for each loop to fill transaction details should go here I think -->
-                <?php
-                foreach($trans[$index-1] as $transactionindex)
-                {
-                    echo "<tr> 
-                            <td> ". $transactionindex['transactionID'] . "</td>
-                            <td> " . $transactionindex['amount'] . "</td>
-                            <td> " . $transactionindex['date'] . "</td>
-                            <td> " . $transactionindex['type'] . "</td>
-                          </tr>";
-                }
-                echo "</table> </td> </tr>";
-                ?>
-
-
-<?php
-            $index++;
 
         }    // outer loop
-        echo "</table>";
+        echo "</table> 
+        <button type = 'submit' name='genReport'> generate report </input> </form> " ;
+        }
+        }
+        else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
+        {
+            echo "Customer has no Deposit Accounts";
+        }
+        ?>
+</div>
+
+<div id="rightbottom">
+    <div id="reportHeaderDiv">  <TABLE >
+            <TR>
+                <TD> First Half of Text</TD> </TR>
+     <tr>           <TD> Image</TD>
+                <TD> Second Half of Text</TD>
+            </TR>
+        </TABLE>
+
+    </div>
+    <div id="reportContentDiv">
+
+               <?php
+               if(isset($_SESSION['tran']))
+               {
+                    ?> <table>
+                        <tr>
+                            <th> Transaction ID</th>
+                            <th> Amount</th>
+                            <th> Date</th>
+                            <th> Type</th>
+                        </tr>
 
 
+                        <?php
+                        foreach ($_SESSION['tran'] as $transrow) {
+                            echo "<tr>";
+                            foreach($transrow as $transactionindex)
+                            {
+                            echo " 
+                            <td> " . $transactionindex . "</td>
+                          
+                          ";
 
+                        }
+                        }
 
-
- }
+                        echo "</tr></table> </td> </tr>";
 }
-else{
-    echo "";
-}
-?>
-            </div>
+
+
+
+                        ?>
+
+    </div>
+
+
+
 
 </div>
+
+            </div>  <!-- div righttop -->
+
+    </div> <!-- div right -->
 </body>
 </html>

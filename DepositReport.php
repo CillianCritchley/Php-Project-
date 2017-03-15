@@ -39,7 +39,7 @@ if($rowcount ==1)
 
 else if(Isset($_POST['confirm']))
 {
-    $_SESSION = array();
+    session_unset();
 
 
     $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
@@ -63,61 +63,31 @@ else if(Isset($_POST['confirm']))
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
-   $index=0;
-    foreach($_SESSION['results'] as $arrRow)
+
+
+
+
+
+}
+else if(isset($_POST['genReport']))
+{
+    $sql= "SELECT Transactions.transactionID, Transactions.amount, Transactions.type, Transactions.date from Transactions 
+    where accountID = ". $_POST['radio'];
+
+    if(!$result = mysqli_query($con,$sql))
     {
-        $sql = "Select * from Transactions where accountID = " . $_SESSION['results'][$index]['depositAccountID'] . " order by transactionID desc limit 4";
-
-        if(!$transactions = mysqli_query($con,$sql))
-        {
-            die("Error in querying database ".mysqli_error($con));
-        }
-        $transactions = mysqli_fetch_all($transactions,MYSQLI_ASSOC);
-        $_SESSION['tran'][$index] = $transactions;
-
-        $index++;
-
-     /*   $transactions = mysqli_fetch_array($transactions);
-        $_SESSION['tran'][$index] = array('transactionID' => $transactions[0], 'accountID' => $transactions[1],
-            'amount' => $transactions[2], 'type' => $transactions[3], 'date' => $transactions[4]);
-        echo $_SESSION['tran'][$index]['transactionID']."<br>";
-        $index++;
-     */
+        die("Error in querying database ".mysqli_error($con));
     }
-   // echo $_SESSION['tran'][$index]['transactionID'];
-
-// need  rows from transactions table relating to accountID
+    $_SESSION['tran'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
 }
-else if(isset($_POST['closeAcc'])) {
-
-    $sql = "update DepositAccount set closed=1 WHERE depositAccountID = " . $_POST['depAccID'];
-   if(! mysqli_query($con,$sql)){
-       die("Error closing Deposit Account".mysqli_error($con));
-   }
-    $_SESSION = array();
-}
-
 else if(isset($_POST['reset'])){
 
 session_unset();
 }
     //go back to the calling form - with the values that we need to display in sessions variables, if a record was found
 header("Location: DepositReport.html.php");
-//or alternately use the following
-// echo "<script> window.location.href = 'view.html.php </script> ";
 
-/*
-$index = 0;
-while($row = mysqli_fetch_array($result))
-{
-//    echo $row['depositAccountID'] ." " . $row['balance'] . " " ;
-//  echo "<br>";
-$_SESSION['results'][$index] = array('accountID' => $row[0], 'balance' => $row[1], 'dateOpened' => $row[2]);
-$_SESSION['transactions'][$index] = array('tran1') =
-$index++;
-
-} */
 
 ?>
 
