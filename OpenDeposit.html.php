@@ -79,7 +79,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                     </td> </tr>
 
                 <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
-                                    value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+                                    value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
                     </td></tr>
                 <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
                     </td></tr>
@@ -95,41 +95,41 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <form  action="OpenDeposit.php"   method="post">
                     <div id="formRow">
                         <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
-                           value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+                           value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
                     </div>
               <div id="formRow">
                   <label for "firstname" >First Name </label>
                   <input  class="InputAddOn-field" readonly type = "text" name = "firstname" id = "firstname"
-                       value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>  ">
+                       value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>">
               </div>
                     <div id="formRow">
                     <label for "amendlastname">Surname </label>
                 <input class="InputAddOn-field" readonly type = "text" name = "surname" id = "surname"
-                       value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?> ">
+                       value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?>">
                     </div>   <div id="formRow">
                 <label for "amendDOB">Date of Birth </label>
                 <input class="InputAddOn-field" readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
                        value="<?php if(ISSET($_SESSION['dateOfBirth']))  {
-                           $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?> ">
+                           $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?>">
                         </div>    <div id="formRow">
                 <label for "addressLine1">Address Line 1</label>
                 <input class="InputAddOn-field" readonly type = "text" name = "addressLine1" id = "addressLine1"
-                       value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?> ">
+                       value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?>">
                             </div>      <div id="formRow">
                 <label for "addressLine2">Address Line 2 </label>
                 <input class="InputAddOn-field" readonly type = "text" name = "addressLine2" id = "addressLine2"
-                       value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?> ">
+                       value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?>">
                                 </div>      <div id="formRow">
                 <label for "addTown">Town </label>
                 <input class="InputAddOn-field" readonly type = "text" name = "addTown" id = addTown
-                       value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?> ">
+                       value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?>">
                                     </div>  <div id="formRow">
                 <label for "addCounty">County </label>
                 <input class="InputAddOn-field" readonly type = "text" name = "addCounty" id = "addCounty"
-                       value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+                       value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
                                         </div>
                     <table>
-                    <tr> <td>  <input class="InputAddOn-field" type="submit"  name="confirm" id="confirm" value="Confirm Customer "> </td></tr>
+                    <tr> <td>  <input class="InputAddOn-field" type="submit"  name="confirm" id="confirm" value="Confirm Customer"> </td></tr>
                     <tr> <td>  <input class="InputAddOn-field" type="submit"  name="reset" id="reset"  value="reset">  </td></tr>
                     </table>
                  </form>

@@ -22,6 +22,7 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
             text-align: right;
         }
 
+
     </style>
     <script>
         function  populate()
@@ -43,15 +44,29 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
             return false;
         }
 
-        function fillTable(id)
-        {
-           if(document.getElementById("" + id + 1).style.display=='none') {
-               document.getElementById("" + id + 1).style.display = 'table-row';
-           }
-           else{
-               document.getElementById("" + id + 1).style.display = 'none';
-           }
-        }
+
+        function dateCheck() {
+            var fromDate = Date.parse(document.getElementById("searchFrom").value);
+            var toDate = Date.parse(document.getElementById("searchTo").value);
+            var now = new Date();
+            if (now < fromDate) {
+                alert("Search From Date cannot be in the future");
+                return false;
+            }
+            else if (now < toDate) {
+                alert("cannot search into the future");
+                return false;
+            }
+            else if (fromDate > toDate)
+            {
+                alert("Search From date cannot be greater than Search To Date");
+                return false;
+            }
+            else{
+            return true;
+            }
+
+            }
 
         window.onload = function(){
 
@@ -79,8 +94,8 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
         <tr> <td>  <label for "customerID" > Search By Customer ID </label>
             </td> </tr>
 
-        <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
-                            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+        <tr> <td>    <input class="InputAddOn-field" required type = "text" name = "customerID" id = "customerID"
+                            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
             </td></tr>
         <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
             </td></tr>
@@ -95,7 +110,7 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
 
 <form  action="DepositReport.php"   method="post">
     <input  type = "hidden" name = "customerIDHide" id = "customerIDHide"
-           value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+           value="<?php if(ISSET($_SESSION['customerID'])) echo $_SESSION['customerID']?>">
     <label for "amendfirstname">First Name </label>
     <input readonly type = "text" name = "firstname" id = "firstname"
            value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>  ">
@@ -126,11 +141,10 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
 </div>
     <div id="rightReport">
 <div id="righttop">
-    <div id="left">
 <?php if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
 {
 $tempARR = $_SESSION['resultsReport'];
-?>   <form action='DepositReport.php' method='post'>
+?>   <form action='DepositReport.php' onsubmit="return dateCheck();" name="depositReport" id="depositReport" method='post'>
         <input  type = "hidden" name = "customerIDHide2" id = "customerIDHide2"
                 value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
         <table>
@@ -160,7 +174,9 @@ foreach ($tempARR as $row)
 
         }    // outer loop
         echo "</table> 
-        <button type = 'submit' name='genReport'> generate report </input> </form> " ;
+        
+				</form> " ;
+
 
         }
         else if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) == 0 )
@@ -168,12 +184,14 @@ foreach ($tempARR as $row)
             echo "Customer has no Deposit Accounts";
         }
         ?>
-    </div>
-    <div id="right">
-        <h2> PUT DATE SEARCH HERE</h2>
-    </div>
-</div>
 
+</div>
+        <div id="righttopleft">
+            <input type = 'submit'  name='genReport' form="depositReport" value="generate report">
+            <label for="searchFrom"> Search From</label>
+                    <input type = "date"  name="searchFrom" id="searchFrom" form="depositReport">
+            <label for="searchTo"> Search To</labeL>
+                <input type = "date"  name="searchTo" id="searchTo" form="depositReport"> </div>
 <div id="rightbottom">
     <div id="reportHeaderDiv">
         <?php

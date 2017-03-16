@@ -67,10 +67,38 @@ html,body{
     height: 100%; /* maybe dont allow this for the bottom div */
     align-self: center;
     border-style: groove;
-    background-color: #419bc1;
+    background-color: #441bc1;
     font-size: large;
     flex:3;
     justify-content: center;
+}
+#righttopleft
+{
+    display: flex;
+    width: 100%;
+    background-color: goldenrod;
+    border-style: groove;
+    justify-content: center;
+}
+#righttop{
+    display:flex;
+    flex:1;
+    background-color: #d9eaff;
+    justify-content: center;
+
+    max-height: 25%;
+    overflow-y: auto;
+
+}
+#righttopright
+{
+    display: flex;
+    height: 100%;
+    align-self: center;
+    border-style: groove;
+    font-size: large;
+    align-items: center;
+    flex: 1;
 }
 #rightleft{
     display:flex;
@@ -88,13 +116,7 @@ html,body{
     align-self: center;
 
 }
-#righttop{
-     display:flex;
-     flex:.6;
-     background-color: #a5c5f1;
-     justify-content: center;
 
- }
 #rightbottom{
     display:flex;
     flex:2;
@@ -123,6 +145,7 @@ html,body{
     height: 100%;
     background-color: #FFddFF;
     justify-content: center;
+    overflow-y: auto;
 
 }
 

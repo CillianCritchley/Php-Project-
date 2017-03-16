@@ -66,11 +66,13 @@ else if(Isset($_POST['confirm']))
 
 
 
-
-
 }
 else if(isset($_POST['genReport']))
 {
+    if($_POST['searchFrom'] == ""  || $_POST['searchTo'] == "")
+    {
+
+
     session_unset();
     $sql = "select * from Customer where CustomerID = ".$_POST['customerIDHide2'];
 
@@ -114,7 +116,19 @@ else if(isset($_POST['genReport']))
         die("Error in querying database ".mysqli_error($con));
     }
     $_SESSION['trans'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
+    } // blank date if
+    else{
+        $sql= "SELECT Transactions.transactionID, Transactions.amount, Transactions.type, Transactions.date from Transactions 
+    where date between '$_POST[searchFrom]' AND '$_POST[searchTo]' and accountID = ". $_POST['radio'];
 
+        if(!$result = mysqli_query($con,$sql))
+        {
+            die("Error in querying database ".mysqli_error($con));
+        }
+        $_SESSION['trans'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+
+    } // else if
 }
 else if(isset($_POST['reset'])){
 

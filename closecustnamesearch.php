@@ -24,7 +24,7 @@ while ($row = mysqli_fetch_array($result))
     $address2 = $row['addressLine2'];
     $town  = $row['addTown'];
     $county = $row['addCounty'];
-    $allText = "$id,$fname,$sname,$dob, $address1, $address2, $town, $county";
+    $allText = "$id,$fname,$sname,$dob,$address1,$address2,$town,$county";
     echo "<option value = '$allText'> $sname,  $fname </option>";
 }
 echo "</select>";

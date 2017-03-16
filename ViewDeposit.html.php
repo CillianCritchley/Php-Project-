@@ -86,8 +86,8 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
             <tr> <td>  <label for "customerID" > Search By Customer ID </label>
                 </td> </tr>
 
-            <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
-                                value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+            <tr> <td>    <input class="InputAddOn-field"  type = "text" pattern="\d" name = "customerID" id = "customerID"
+                                value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
                 </td></tr>
             <tr> <td>      <button type="submit" name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
                 </td></tr>
@@ -96,8 +96,8 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
                 </td> </tr>
             <tr> </form>
     <form action="ViewDeposit.php" method="post"> </tr>
-            <tr> <td>    <input class="InputAddOn-field" type = "text" name = "accID" id = "accID"
-                                value="<?php if(ISSET($_SESSION['accID'])) echo htmlspecialchars($_SESSION['accID'])?> ">
+            <tr> <td>    <input class="InputAddOn-field" pattern="\d" title="numeric only" type = "text" name = "accID" id = "accID"
+                                value="<?php if(ISSET($_SESSION['accID'])) echo htmlspecialchars($_SESSION['accID'])?>">
                 </td></tr>
 
             <tr> <td>      <button type="submit" name="searchAccount" id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
