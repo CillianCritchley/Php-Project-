@@ -74,8 +74,7 @@ else if(isset($_POST['searchAccount']))
 
         $_SESSION['results'][0] =  array("depositAccountID" => $row['depositAccountID'], "balance" => $row['balance'],
             "date" => $row['dateOpened']);
-        $_SESSION['tran'][0] = array("transactionID" => $row['transactionID'], "amount" => $row['amount'],
-            "type"  => $row['type'], "date" => $row['date']);
+
 
     }
     else if ($rowcount ==0)
@@ -84,7 +83,6 @@ else if(isset($_POST['searchAccount']))
 
         $_SESSION['errorVarAcc'] = "No such Account found";
     }
-
 } //Account Id search if
 else if(Isset($_POST['confirm']))
 {
@@ -113,11 +111,11 @@ else if(Isset($_POST['confirm']))
 
    $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
 
-
 }
 
 else if(isset($_POST['ViewDetails']))
 {
+
     session_unset();
     $sql = "select * from Customer where CustomerID = ".$_POST['customerIDHide2'];
 

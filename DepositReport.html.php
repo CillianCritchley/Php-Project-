@@ -1,8 +1,11 @@
 <?php session_start();
-if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/DepositReport.html.php')
+if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/DepositReport.html.php')
 {
     session_unset();
 }
+include 'func.php';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -25,14 +28,6 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
 
     </style>
 
-    <script>
-
-        window.onload = function(){
-            document.getElementById('listbox').selectedIndex = -1;
-            <?php if(isset($_SESSION['errorVarCustReport'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
-                    " does not exist");  <?php session_unset();}?>
-        }
-    </script>
     <script type="text/JavaScript" src="cillianscript.js">
 
 
@@ -151,7 +146,8 @@ foreach ($tempARR as $row)
         <div id="righttopleft">
             <input type = 'submit'  name='genReport' form="depositReport" value="generate report">
             <label for="searchFrom"> Search From</label>
-                    <input type = "date"  name="searchFrom" id="searchFrom" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd"  form="depositReport">
+                    <input type = "date"  name="searchFrom" id="searchFrom" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd"
+                           form="depositReport">
             <label for="searchTo"> Search To</labeL>
                 <input type = "date"  name="searchTo" id="searchTo" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd" form="depositReport"> </div>
 <div id="rightbottom">

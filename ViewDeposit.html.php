@@ -1,8 +1,10 @@
 <?php session_start();
-if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset($_SESSION['customerID']))  && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/ViewDeposit.html.php')
+if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/ViewDeposit.html.php')
 {
     session_unset();
 }
+include 'func.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -25,15 +27,7 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
             text-align: right;
         }
     </style>
-    <script>
-        window.onload = function(){
-            document.getElementById('listbox').selectedIndex = -1;
-            <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
-                    " does not exist");  <?php session_unset();}?>
-            <?php if(isset($_SESSION['errorVarAcc'])) { ?> alert("Account ID " + <?php echo $_SESSION['accID'] ?> +
-                    " does not exist or is not a Deposit Account");  <?php session_unset();}?>
-        }
-    </script>
+
     <script type="text/JavaScript" src="cillianscript.js">
 
 
@@ -75,7 +69,6 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
                 </td></tr>
             <tr> <td> </td></tr>
             <tr> <td> </td></tr>
-            <tr> <td> <?php if(isset($_SESSION['errorVarAcc'])) echo $_SESSION['errorVarAcc']?> </td></tr>
 
 
         </table>
@@ -84,35 +77,35 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
 <div id="midleft">
 <p id = "display"> </p>
 
-<form  action="ViewDeposit.php"   method="post">
+<form  action="ViewDeposit.php"  onsubmit="return formCheck(this.submited);" method="post">
 
     <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
-           value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
+           value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
     <label for "amendfirstname">First Name </label>
     <input readonly type = "text" name = "firstname" id = "firstname"
-           value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>  ">
+           value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>">
     <label for "amendlastname">Surname </label>
     <input readonly type = "text" name = "surname" id = "surname"
-           value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?> ">
+           value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?>">
     <label for "amendDOB">Date of Birth </label>
     <input readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
            value="<?php if(ISSET($_SESSION['dateOfBirth']))  {
-               $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?> ">
+               $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?>">
     <label for "addressLine1">Address Line 1</label>
     <input readonly type = "text" name = "addressLine1" id = "addressLine1"
-           value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?> ">
+           value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?>">
     <label for "addressLine2">Address Line 2 </label>
     <input readonly type = "text" name = "addressLine2" id = "addressLine2"
-           value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?> ">
+           value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?>">
     <label for "addTown">Town </label>
     <input readonly type = "text" name = "addTown" id = addTown
-           value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?> ">
+           value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?>">
     <label for "addCounty">County </label>
     <input readonly type = "text" name = "addCounty" id = "addCounty"
-           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
     <br><br>
-    <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
-    <input type="submit"  name="reset" id="reset"  value="reset">
+    <input type="submit"  onclick="this.form.submited=this.value;" name="confirm" id="confirm" value="Confirm Customer">
+    <input type="submit"  onclick="this.form.submited=this.value;" name="reset" id="reset"  value="reset">
 
 </form>
 </div>
@@ -122,9 +115,9 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
 {
 $tempARR = $_SESSION['results'];
 ?>
-            <form action='ViewDeposit.php' method='post'>
+            <form action='ViewDeposit.php' id="viewdepositform" method='post'>
                 <input type="hidden" name="customerIDHide2" id="customerIDHide2"
-                       value="<?php if (ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID']) ?> ">
+                       value="<?php if (ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID']) ?>">
                 <table>
                     <tr>
                         <th> Select</th>
@@ -163,7 +156,7 @@ $tempARR = $_SESSION['results'];
                         }    // outer loop
                         echo "</table>
 
-                        <button type = 'submit' name='ViewDetails'> View Account Details </input> </form> " ;
+                         </form> " ;
 
         }
         else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
@@ -171,6 +164,10 @@ $tempARR = $_SESSION['results'];
             echo "Customer has no Deposit Accounts";
         }
         ?>
+
+        </div>
+        <div id="righttopleft">
+            <input type = 'submit' form="viewdepositform" name='ViewDetails' value="View Account Details">
 
         </div>
         <div id="rightbottom">

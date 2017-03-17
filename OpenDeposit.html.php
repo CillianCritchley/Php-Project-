@@ -2,8 +2,11 @@
 
 if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/OpenDeposit.html.php')
 {
-    $_SESSION = array();
+    session_unset();
 }
+include 'func.php';
+
+
 ?>
 
 <!DOCTYPE html>
@@ -24,13 +27,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             text-align: left;
         }
     </style>
-    <script>
-        window.onload = function(){
-            document.getElementById('listbox').selectedIndex = -1;
-            <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
-                    " does not exist");  <?php session_unset();}?>
-        }
-    </script>
+
 
     <script type="text/JavaScript" src="cillianscript.js">
 
@@ -116,7 +113,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
         </div> <!-- midcen -->
         <div id="midright" >
 
-            <form  action="OpenDeposit.php"   method="post">
+            <form  action="OpenDeposit.php"   onsubmit="return checkEmpty(this.submited);" method="post">
                 <input readonly type="text" name="accountID" id="accountID"
                        value="<?php if(isset($_SESSION['nextaccountID'])) echo $_SESSION['nextaccountID'] ?>">
                 <br>
@@ -126,7 +123,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <label for "deposit"> Opening Deposit </label>
                 <input type="text" name="deposit" id="deposit" pattern="\d\.\d{2}" title="Currency format (xxx.xx) No Symbols">
                 <!-- deposit can not be empty -->
-                <input type="submit" value="addDeposit" name="addDeposit" id="addDeposit">
+                <input type="submit" onclick="this.form.submited=this.name;"  value="addDeposit" name="addDeposit" id="addDeposit">
             </form>
         </div>   <!-- midright -->
 

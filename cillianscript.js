@@ -6,9 +6,11 @@ field is empty, it will return false and the form will not submit. An alert box 
 of this.  The same applies for the account ID field and the searchAccount button.
 If neither of those conditions are met, the form submits as normal.
 
-Two of the pages, Open Deposit and Deposit report do not have accountID elements in the particular form that this
+Two of the pages, OpenDeposit.html.php and Depositreport.html.php do not have accountID elements in the particular form that this
 function is called by. I added a check so that if the accID element is not present on the page, the function
 will not attempt to grab a value from it. Without this the function will not work on those two pages.
+
+OpenDeposit.html.php page also has a final input field "deposit" for entering an opening balance.
 
  */
 function checkEmpty(button)
@@ -18,12 +20,21 @@ function checkEmpty(button)
     {
     var acc = document.getElementById("accID").value;
     }
+    if(document.getElementById("deposit"))
+    {
+        var addDep = document.getElementById("deposit").value;
+    }
     if(button == "searchCustomer" && cus == "")
     {
         alert("cannot submit empty field");
         return false
     }
     else if(button == "searchAccount" && acc == "")
+    {
+        alert("cannot submit empty field");
+        return false;
+    }
+    else if(button == "addDeposit" && addDep == "")
     {
         alert("cannot submit empty field");
         return false;
@@ -108,4 +119,8 @@ function dateCheck() {
         return true;
     }
 
+}
+
+window.onload = function(){
+    document.getElementById('listbox').selectedIndex = -1;
 }

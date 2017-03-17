@@ -1,8 +1,9 @@
 <?php session_start();
-if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset($_SESSION['customerID']))  && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/CloseDeposit.html.php')
+if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/CloseDeposit.html.php')
 {
-    $_SESSION = array();
+    session_unset();
 }
+include 'func.php';
 ?>
 
 <!DOCTYPE html>
@@ -23,15 +24,7 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
             text-align: right;
         }
     </style>
-    <script>
-        window.onload = function(){
-            document.getElementById('listbox').selectedIndex = -1;
-            <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
-                    " does not exist");  <?php session_unset();}?>
-            <?php if(isset($_SESSION['errorVarAcc'])) { ?> alert("Account ID " + <?php echo $_SESSION['accID'] ?> +
-                    " does not exist or is not a Deposit Account");  <?php session_unset();}?>
-        }
-    </script>
+
     <script type="text/JavaScript" src="cillianscript.js">
 
 
@@ -69,13 +62,12 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
 
                 <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchAccount" id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
                     </td></tr>
-                <tr> <td> <?php if(isset($_SESSION['errorVarAcc'])) echo $_SESSION['errorVarAcc']?> </td></tr>
             </table>
         </form> </div>
 
 <div id="midleft">
 
-<form  action="CloseDeposit.php"  id="ConfirmReset" method="post">
+<form  action="CloseDeposit.php" onsubmit="return formCheck(this.submited);" id="ConfirmReset" method="post">
 
     <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
@@ -102,9 +94,9 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
     <input readonly type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
     <br><br>
-    <input type="submit"  name="confirm" id="confirm" value="Confirm Customer">
+    <input type="submit"  onclick="this.form.submited=this.value;"  name="confirm" id="confirm" value="Confirm Customer">
 
-        <input type="submit"  name="reset" id="reset"  value="reset">
+        <input type="submit"  onclick="this.form.submited=this.value;" name="reset" id="reset"  value="reset">
 
 <br><br><br>
 
