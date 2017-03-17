@@ -44,9 +44,32 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
             return false;
         }
 
+        function checkEmpty(button)
+        {
+            var cus = document.getElementById("customerID").value;
+            var acc = document.getElementById("accID").value;
+
+           if(button == "searchCustomer" && cus == "")
+           {
+               alert("cannot submit empty field");
+               return false
+           }
+           else if(button == "searchAccount" && acc == "")
+            {
+                alert("cannot submit empty field");
+                return false;
+            }
+           else{
+               return true;
+           }
+        }
         window.onload = function(){
 
             document.getElementById('listbox').selectedIndex = -1;
+            <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
+                    " does not exist");  <?php session_unset();}?>
+            <?php if(isset($_SESSION['errorVarAcc'])) { ?> alert("Account ID " + <?php echo $_SESSION['accID'] ?> +
+                    " does not exist or is not a Deposit Account");  <?php session_unset();}?>
         }
 
     </script>
@@ -61,7 +84,7 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
 </div>
 <div id="mid">
 
-        <div id="left" > <form  action="CloseDeposit.php"   method="post">
+        <div id="left" > <form  action="CloseDeposit.php"   onsubmit="return checkEmpty(this.submited);" method="post">
             <table>
                 <tr> <td>
                         <font size="5">  Select Name From List </font> </td> </tr>
@@ -71,19 +94,18 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
                 <tr> <td>  <label for "customerID" > Search By Customer ID </label>
                     </td> </tr>
 
-                <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
+                <tr> <td>    <input class="InputAddOn-field"  pattern="[0-9]{1,}" title="numeric only" type = "text" name = "customerID" id = "customerID"
                                     value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
                     </td></tr>
-                <tr> <td>      <button type="submit" name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
+                <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
                     </td></tr>
-                <tr> <td> <?php if(isset($_SESSION['errorVarCust'])) echo $_SESSION['errorVarCust']?></td></tr>
-                <tr> <td>     <tr> <td>  <label for "customerID" > Search By Account ID </label>
+                <tr> <td>     <tr> <td>  <label for "accountID" > Search By Account ID </label>
                     </td> </tr></td></tr>
-                <tr> <td>    <input class="InputAddOn-field" type = "text" name = "accID" id = "accID"
+                <tr> <td>    <input class="InputAddOn-field"  pattern="[0-9]{1,}" title="numeric only" type = "text" name = "accID" id = "accID"
                                     value="<?php if(ISSET($_SESSION['accID'])) echo htmlspecialchars($_SESSION['accID'])?>">
                     </td></tr>
 
-                <tr> <td>      <button type="submit" name="searchAccount" id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
+                <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchAccount" id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
                     </td></tr>
                 <tr> <td> <?php if(isset($_SESSION['errorVarAcc'])) echo $_SESSION['errorVarAcc']?> </td></tr>
             </table>
@@ -157,6 +179,7 @@ if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
          <tr>  <td> <form name="CloseDepositForm" id="CloseDepositForm" action="CloseDeposit.php" method="post">
 
                     <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['depositAccountID']; ?>">
+                    <input type="hidden" id="balance" name="balance" value="<?php echo $row['balance']; ?>">
                     <input type="hidden" id="index" name="index" value="<?php echo $index; ?>">
                     <input type="submit" value="Close" id="closeAcc" name="closeAcc" title="Click here to close the Account">
                 </form></td>

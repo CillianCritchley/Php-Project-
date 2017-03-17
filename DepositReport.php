@@ -2,7 +2,7 @@
 session_start();
 include 'db.inc.php';
 
-if(isset($_POST['search']))
+if(isset($_POST['searchCustomer']))
 {
 
     session_unset();

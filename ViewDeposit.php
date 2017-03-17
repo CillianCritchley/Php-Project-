@@ -33,6 +33,8 @@ if($rowcount ==1)
     }
     else if ($rowcount ==0)
     {
+        $_SESSION['customerID'] = $_POST['customerID'];
+
         $_SESSION['errorVarCust'] = "No such Customer found";
 
     }
@@ -70,14 +72,16 @@ else if(isset($_POST['searchAccount']))
         $_SESSION['addTown']  = $row['addTown'];
         $_SESSION['addCounty'] = $row['addCounty'];
 
-        $_SESSION['results'][0] =  array("accountID" => $row['depositAccountID'], "balance" => $row['balance'],
+        $_SESSION['results'][0] =  array("depositAccountID" => $row['depositAccountID'], "balance" => $row['balance'],
             "date" => $row['dateOpened']);
-        $_SESSION['tran'][0][0] = array("transactionID" => $row['transactionID'], "amount" => $row['amount'],
+        $_SESSION['tran'][0] = array("transactionID" => $row['transactionID'], "amount" => $row['amount'],
             "type"  => $row['type'], "date" => $row['date']);
 
     }
     else if ($rowcount ==0)
     {
+        $_SESSION['accID'] = $_POST['accID'];
+
         $_SESSION['errorVarAcc'] = "No such Account found";
     }
 

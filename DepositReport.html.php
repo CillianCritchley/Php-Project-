@@ -99,6 +99,20 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
             }
 
         }
+        function checkEmpty(button)
+        {
+            var cus = document.getElementById("customerID").value;
+
+            if(button == "searchCustomer" && cus == "")
+            {
+                alert("cannot submit empty field");
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
         window.onload = function(){
 
             document.getElementById('listbox').selectedIndex = -1;
@@ -118,7 +132,7 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
 </div>
 <div id="mid">
 <div id="left">
-    <form  action="DepositReport.php"   method="post">
+    <form  action="DepositReport.php"  onsubmit="return checkEmpty(this.submited);" method="post">
     <table>
         <tr> <td>
                 <font size="5">  Select Name From List </font> </td> </tr>
@@ -131,7 +145,7 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
         <tr> <td>    <input class="InputAddOn-field"  type = "text" pattern="[0-9]+" title="numeric only" name = "customerID" id = "customerID"
                             value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
             </td></tr>
-        <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+        <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchCustomer" id="search" class="InputAddOn-item"> Search by Customer Number</button>
             </td></tr>
         <tr> <td> </td></tr>
 

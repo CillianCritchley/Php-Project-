@@ -32,6 +32,8 @@ if(isset($_POST['searchCustomer']))
     else if ($rowcount ==0)
     {
         $_SESSION['errorVarCust'] = "No such Customer found";
+        $_SESSION['customerID'] = $_POST['customerID'];
+
 
     }
 
@@ -67,17 +69,16 @@ else if(isset($_POST['searchAccount']))
         $_SESSION['addTown']  = $row['addTown'];
         $_SESSION['addCounty'] = $row['addCounty'];
 
-        $_SESSION['results'][0] =  array("accountID" => $row['depositAccountID'], "balance" => $row['balance'],
+        $_SESSION['results'][0] =  array("depositAccountID" => $row['depositAccountID'], "balance" => $row['balance'],
             "date" => $row['dateOpened']);
 
-        $_SESSION['errorVarAcc'] ="";
-        $_SESSION['errorVarCust'] ="";
+
+
     }
     else if ($rowcount ==0)
     {
         $_SESSION['errorVarAcc'] = "No such Account found";
     }
-
 } //Account Id search if
 
 else if(Isset($_POST['confirm']))
@@ -106,7 +107,6 @@ else if(Isset($_POST['confirm']))
     $_SESSION['addCounty'] = $_POST['addCounty'];
     $_SESSION['dateOfBirth'] = $_POST['dateOfBirth'];
 
-    $index = 0;
     $_SESSION['results'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
 
 
@@ -117,7 +117,7 @@ else if(isset($_POST['closeAcc'])) {
     {
         $sql = "update DepositAccount set closed=1 WHERE depositAccountID = " . $_POST['depAccID'];
        if(! mysqli_query($con,$sql)){
-           die("Error closing Deposit Account".mysqli_error($con));
+           die("Error closing Deposit Account ".mysqli_error($con));
        }
         $_SESSION['closeVar'] = "Account $_POST[depAccID] Closed";
        /* once account is successfully closed, left shift the session array so that when the rightmost div on the previous page is
@@ -132,7 +132,7 @@ else if(isset($_POST['closeAcc'])) {
 */
     }
     else{
-        $_SESSION['closeVar'] = "Account $_POST[depAccID] not Empty";
+        $_SESSION['closeVar'] = "Account $_POST[depAccID] not empty , balance is $_POST[balance]";
     }
 
 }
