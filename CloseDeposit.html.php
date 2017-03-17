@@ -106,15 +106,6 @@ include 'func.php';
 <div id="rightleft">
 <?php
 
- if(isset($_SESSION['closeVar'])) {
-    echo "  <script> alert( \"$_SESSION[closeVar]\" );
-                                 
-                </script>
-                 ";
-    unset($_SESSION['closeVar']);
-}
-
-
 if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
     $tempARR = $_SESSION['results'];

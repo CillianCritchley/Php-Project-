@@ -121,15 +121,13 @@ else if(isset($_POST['closeAcc'])) {
        }
         $_SESSION['closeVar'] = "Account $_POST[depAccID] Closed";
        /* once account is successfully closed, left shift the session array so that when the rightmost div on the previous page is
-       reloaded the closed account is not visible */
+       reloaded the details of the closed account are no longer output */
+
+       
+       /* THIS DOESNT WORK IF ACCOUNT IS ANYWHERE BUT AT THE FRONT*/
+
         array_shift($_SESSION['results']);
-        /* if after left shifting the length of the array is zero (if there was only one deposit account). unset the session
-        so the table headings will not load over an otherwise empty div on the previous page
-        if( (count($_SESSION['results'])  == 0))
-        {
-            unset($_SESSION['results']);
-        }
-*/
+
     }
     else{
         $_SESSION['closeVar'] = "Account $_POST[depAccID] not empty , balance is $_POST[balance]";
