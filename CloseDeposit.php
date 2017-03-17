@@ -119,7 +119,7 @@ else if(isset($_POST['closeAcc'])) {
        if(! mysqli_query($con,$sql)){
            die("Error closing Deposit Account".mysqli_error($con));
        }
-        $_SESSION['closeVar'] = "Account Closed";
+        $_SESSION['closeVar'] = "Account $_POST[depAccID] Closed";
        /* once account is successfully closed, left shift the session array so that when the rightmost div on the previous page is
        reloaded the closed account is not visible */
         array_shift($_SESSION['results']);
@@ -132,7 +132,7 @@ else if(isset($_POST['closeAcc'])) {
 */
     }
     else{
-        $_SESSION['closeVar'] = "Account not Empty";
+        $_SESSION['closeVar'] = "Account $_POST[depAccID] not Empty";
     }
 
 }

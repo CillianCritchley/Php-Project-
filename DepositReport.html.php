@@ -67,10 +67,44 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
             }
 
             }
+        function formCheck(check)
+        {
+            /*if the value pulled from the database for this customer for addressLine2 is empty
+             don't output it.
+             */
+            if(document.getElementById("addressLine2").value == "")
+            {
+                var address = document.getElementById("addressLine1").value + "\n                          "
+                    + document.getElementById("addTown").value + "\n                          "
+                    + document.getElementById("addCounty").value;
+            }
+            else {
+                var address = document.getElementById("addressLine1").value + "\n                          "
+                    + document.getElementById("addressLine2").value + "\n                          "
+                    + document.getElementById("addTown").value + "\n                          "
+                    + document.getElementById("addCounty").value;
+            }
+            if(check == "reset")
+            {
+                return true;
+            }
+            else{
+                return confirm("Customer Id:     " + document.getElementById("customerID").value +
+                    " \nName :              " +  document.getElementById("firstname").value + " " +  document.getElementById("surname").value +
+                    "\nDate of Birth:    " + document.getElementById("dateOfBirth").value +
+                    "\nAddress :           " +  address +
+                    "\n\n  Please confirm this is the correct Customer"
+                ) ;
 
+            }
+
+        }
         window.onload = function(){
 
             document.getElementById('listbox').selectedIndex = -1;
+            <?php if(isset($_SESSION['errorVarCustReport'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
+                    " does not exist");  <?php session_unset();}?>
+
         }
     </script>
 
@@ -94,48 +128,47 @@ if((isset($_SESSION['errorVarCustReport']) || isset($_SESSION['customerID'])) &&
         <tr> <td>  <label for "customerID" > Search By Customer ID </label>
             </td> </tr>
 
-        <tr> <td>    <input class="InputAddOn-field" required type = "text" name = "customerID" id = "customerID"
+        <tr> <td>    <input class="InputAddOn-field"  type = "text" pattern="[0-9]+" title="numeric only" name = "customerID" id = "customerID"
                             value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
             </td></tr>
         <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
             </td></tr>
         <tr> <td> </td></tr>
 
-        <tr> <td> <?php if(isset($_SESSION['errorVarCustReport'])) echo $_SESSION['errorVarCustReport']?> </td></tr>
 
     </table>
     </form>
 </div>
 <div id="midleft">
 
-<form  action="DepositReport.php"   method="post">
+<form  action="DepositReport.php"   onsubmit="return formCheck(this.submited);" method="post">
     <input  type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo $_SESSION['customerID']?>">
     <label for "amendfirstname">First Name </label>
     <input readonly type = "text" name = "firstname" id = "firstname"
-           value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>  ">
+           value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>">
     <label for "amendlastname">Surname </label>
     <input readonly type = "text" name = "surname" id = "surname"
-           value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?> ">
+           value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?>">
     <label for "amendDOB">Date of Birth </label>
     <input readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
            value="<?php if(ISSET($_SESSION['dateOfBirth']))  {
-               $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?> ">
+               $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?>">
     <label for "addressLine1">Address Line 1</label>
     <input readonly type = "text" name = "addressLine1" id = "addressLine1"
-           value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?> ">
+           value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?>">
     <label for "addressLine2">Address Line 2 </label>
     <input readonly type = "text" name = "addressLine2" id = "addressLine2"
-           value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?> ">
+           value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?>">
     <label for "addTown">Town </label>
     <input readonly type = "text" name = "addTown" id = addTown
-           value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?> ">
+           value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?>">
     <label for "addCounty">County </label>
     <input readonly type = "text" name = "addCounty" id = "addCounty"
-           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?> ">
+           value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
     <br><br>
-    <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
-    <input type="submit"  name="reset" id="reset"  value="reset">
+    <input type="submit"  name="confirm" id="confirm" onclick="this.form.submited=this.value;" value="Confirm Customer">
+    <input type="submit"  name="reset" id="reset" onclick="this.form.submited=this.value;" value="reset">
 
 </form>
 </div>
@@ -189,9 +222,9 @@ foreach ($tempARR as $row)
         <div id="righttopleft">
             <input type = 'submit'  name='genReport' form="depositReport" value="generate report">
             <label for="searchFrom"> Search From</label>
-                    <input type = "date"  name="searchFrom" id="searchFrom" form="depositReport">
+                    <input type = "date"  name="searchFrom" id="searchFrom" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd"  form="depositReport">
             <label for="searchTo"> Search To</labeL>
-                <input type = "date"  name="searchTo" id="searchTo" form="depositReport"> </div>
+                <input type = "date"  name="searchTo" id="searchTo" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd" form="depositReport"> </div>
 <div id="rightbottom">
     <div id="reportHeaderDiv">
         <?php

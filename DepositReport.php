@@ -34,6 +34,7 @@ if($rowcount ==1)
     else if ($rowcount ==0)
     {
         $_SESSION['errorVarCustReport'] = "No such Customer found";    }
+    $_SESSION['customerID'] = $_POST['customerID'];
 
 } //search if
 

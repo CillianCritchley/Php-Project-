@@ -47,11 +47,47 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
             return false;
         }
 
+        function formCheck(check)
+        {
+            /*if the value pulled from the database for this customer for addressLine2 is empty
+            don't output it.
+             */
+            if(document.getElementById("addressLine2").value == "")
+            {
+               var address = document.getElementById("addressLine1").value + "\n                          "
+                   + document.getElementById("addTown").value + "\n                          "
+                   + document.getElementById("addCounty").value;
+            }
+            else {
+                var address = document.getElementById("addressLine1").value + "\n                          "
+                    + document.getElementById("addressLine2").value + "\n                          "
+                    + document.getElementById("addTown").value + "\n                          "
+                    + document.getElementById("addCounty").value;
+            }
+                if(check == "reset")
+                {
+                    return true;
+                }
+                else{
+                  return confirm("Customer Id:     " + document.getElementById("customerID").value +
+                     " \nName :              " +  document.getElementById("firstname").value + " " +  document.getElementById("surname").value +
+                   "\nDate of Birth:    " + document.getElementById("dateOfBirth").value +
+                   "\nAddress :           " +  address +
+                    "\n\n  Please confirm this is the correct Customer"
+                  ) ;
+
+                }
+
+        }
+
+
+
         window.onload = function(){
 
-
-
             document.getElementById('listbox').selectedIndex = -1;
+            <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
+                    " does not exist");  <?php session_unset();}?>
+
         }
 
     </script>
@@ -68,7 +104,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
     <div id="mid">
         <div id="left">
             <br>
-            <form  action="OpenDeposit.php"   method="post">
+            <form  action="OpenDeposit.php"  method="post">
             <table>
                 <tr> <td>
                       <font size="5">  Select Name From List </font> </td> </tr>
@@ -78,13 +114,12 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <tr> <td>  <label for "customerID" > Search By Customer ID </label>
                     </td> </tr>
 
-                <tr> <td>    <input class="InputAddOn-field" type = "text" name = "customerID" id = "customerID"
+                <tr> <td>    <input class="InputAddOn-field" pattern="[0-9]+" title="numeric only" type = "text" name = "customerID" id = "customerID"
                                     value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
                     </td></tr>
                 <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
                     </td></tr>
                 <tr> <td> </td></tr>
-                <tr> <td> <?php if(isset($_SESSION['errorVarCust'])) echo $_SESSION['errorVarCust']?> </td></tr>
 
             </table>
             </form>
@@ -92,7 +127,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
 
         <div id="midleft">
 
-                <form  action="OpenDeposit.php"   method="post">
+                <form  action="OpenDeposit.php" onsubmit="return formCheck(this.submited);"  method="post">
                     <div id="formRow">
                         <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
                            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
@@ -129,8 +164,10 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                        value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
                                         </div>
                     <table>
-                    <tr> <td>  <input class="InputAddOn-field" type="submit"  name="confirm" id="confirm" value="Confirm Customer"> </td></tr>
-                    <tr> <td>  <input class="InputAddOn-field" type="submit"  name="reset" id="reset"  value="reset">  </td></tr>
+                    <tr> <td>  <input class="InputAddOn-field" onclick="this.form.submited=this.value;" type="submit"
+                                      name="confirm" id="confirm" value="Confirm Customer"> </td></tr>
+                    <tr> <td>  <input class="InputAddOn-field" onclick="this.form.submited=this.value;" type="submit"
+                                      name="reset" id="reset"  value="reset">  </td></tr>
                     </table>
                  </form>
 
@@ -144,7 +181,8 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <input readonly type="text" name="accountID22" id="accountID22"
                        value="<?php if(isset($_SESSION['customerID'])) echo $_SESSION['customerID'] ?>">
                 <br>
-                <label for "deposit"> Opening Deposit </label> <input type="text" name="deposit" id="deposit" >
+                <label for "deposit"> Opening Deposit </label>
+                <input type="text" name="deposit" id="deposit" pattern="\d\.\d{2}" title="Currency format (xxx.xx) No Symbols">
                 <!-- deposit can not be empty -->
                 <input type="submit" value="addDeposit" name="addDeposit" id="addDeposit">
             </form>
