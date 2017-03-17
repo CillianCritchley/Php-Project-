@@ -26,62 +26,7 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
         }
     </style>
     <script>
-        function  populate()
-        {
-            var sel = document.getElementById("listbox");
-            var result;
-            result = sel.options[sel.selectedIndex].value;
-            var personDetails = result.split(',');
-            document.getElementById("customerID").value = personDetails[0];
-            document.getElementById("customerIDHide").value = personDetails[0];
-
-            document.getElementById("firstname").value = personDetails[1];
-            document.getElementById("surname").value = personDetails[2];
-            document.getElementById("addressLine1").value = personDetails[4];
-            document.getElementById("addressLine2").value = personDetails[5];
-            document.getElementById("addTown").value = personDetails[6];
-            document.getElementById("addCounty").value = personDetails[7];
-            document.getElementById("dateOfBirth").value = personDetails[3];
-
-
-            return false;
-        }
-/* len = number of rows to be filled as seen down */
-
-        function fillTable(id,len)
-        {
-
-
-           if(document.getElementById("" + id + 1).style.display=='none') {
-
-               document.getElementById("" + id + 1).style.display = 'table-row';
-           }
-           else{
-               document.getElementById("" + id + 1).style.display = 'none';
-           }
-        }
-        function checkEmpty(button)
-        {
-            var cus = document.getElementById("customerID").value;
-            var acc = document.getElementById("accID").value;
-
-            if(button == "searchCustomer" && cus == "")
-            {
-                alert("cannot submit empty field");
-                return false
-            }
-            else if(button == "searchAccount" && acc == "")
-            {
-                alert("cannot submit empty field");
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-
         window.onload = function(){
-
             document.getElementById('listbox').selectedIndex = -1;
             <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
                     " does not exist");  <?php session_unset();}?>
@@ -89,7 +34,10 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
                     " does not exist or is not a Deposit Account");  <?php session_unset();}?>
         }
     </script>
+    <script type="text/JavaScript" src="cillianscript.js">
 
+
+    </script>
 
 </head>
 <body>

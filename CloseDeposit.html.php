@@ -24,56 +24,18 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
         }
     </style>
     <script>
-        function  populate()
-        {
-            var sel = document.getElementById("listbox");
-            var result;
-            result = sel.options[sel.selectedIndex].value;
-            var personDetails = result.split(',');
-            document.getElementById("customerID").value = personDetails[0];
-            document.getElementById("customerIDHide").value = personDetails[0];
-
-            document.getElementById("firstname").value = personDetails[1];
-            document.getElementById("surname").value = personDetails[2];
-            document.getElementById("addressLine1").value = personDetails[4];
-            document.getElementById("addressLine2").value = personDetails[5];
-            document.getElementById("addTown").value = personDetails[6];
-            document.getElementById("addCounty").value = personDetails[7];
-            document.getElementById("dateOfBirth").value = personDetails[3];
-
-            return false;
-        }
-
-        function checkEmpty(button)
-        {
-            var cus = document.getElementById("customerID").value;
-            var acc = document.getElementById("accID").value;
-
-           if(button == "searchCustomer" && cus == "")
-           {
-               alert("cannot submit empty field");
-               return false
-           }
-           else if(button == "searchAccount" && acc == "")
-            {
-                alert("cannot submit empty field");
-                return false;
-            }
-           else{
-               return true;
-           }
-        }
         window.onload = function(){
-
             document.getElementById('listbox').selectedIndex = -1;
             <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
                     " does not exist");  <?php session_unset();}?>
             <?php if(isset($_SESSION['errorVarAcc'])) { ?> alert("Account ID " + <?php echo $_SESSION['accID'] ?> +
                     " does not exist or is not a Deposit Account");  <?php session_unset();}?>
         }
-
     </script>
+    <script type="text/JavaScript" src="cillianscript.js">
 
+
+        </script>
 
 </head>
 <body >
@@ -113,7 +75,7 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
 
 <div id="midleft">
 
-<form  action="CloseDeposit.php"   id="ConfirmReset" method="post">
+<form  action="CloseDeposit.php"  id="ConfirmReset" method="post">
 
     <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
@@ -140,7 +102,7 @@ if((isset($_SESSION['errorVarAcc']) || isset($_SESSION['errorVarCust']) || isset
     <input readonly type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
     <br><br>
-    <input type="submit"  name="confirm" id="confirm" value="Confirm Customer ">
+    <input type="submit"  name="confirm" id="confirm" value="Confirm Customer">
 
         <input type="submit"  name="reset" id="reset"  value="reset">
 

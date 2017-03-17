@@ -25,74 +25,16 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
         }
     </style>
     <script>
-
-
-
-        function  populate()
-        {
-            var sel = document.getElementById("listbox");
-            var result;
-            result = sel.options[sel.selectedIndex].value;
-            var personDetails = result.split(',');
-            document.getElementById("customerID").value = personDetails[0];
-            document.getElementById("customerIDHide").value = personDetails[0];
-            document.getElementById("firstname").value = personDetails[1];
-            document.getElementById("surname").value = personDetails[2];
-            document.getElementById("addressLine1").value = personDetails[4];
-            document.getElementById("addressLine2").value = personDetails[5];
-            document.getElementById("addTown").value = personDetails[6];
-            document.getElementById("addCounty").value = personDetails[7];
-            document.getElementById("dateOfBirth").value = personDetails[3];
-
-            return false;
-        }
-
-        function formCheck(check)
-        {
-            /*if the value pulled from the database for this customer for addressLine2 is empty
-            don't output it.
-             */
-            if(document.getElementById("addressLine2").value == "")
-            {
-               var address = document.getElementById("addressLine1").value + "\n                          "
-                   + document.getElementById("addTown").value + "\n                          "
-                   + document.getElementById("addCounty").value;
-            }
-            else {
-                var address = document.getElementById("addressLine1").value + "\n                          "
-                    + document.getElementById("addressLine2").value + "\n                          "
-                    + document.getElementById("addTown").value + "\n                          "
-                    + document.getElementById("addCounty").value;
-            }
-                if(check == "reset")
-                {
-                    return true;
-                }
-                else{
-                  return confirm("Customer Id:     " + document.getElementById("customerID").value +
-                     " \nName :              " +  document.getElementById("firstname").value + " " +  document.getElementById("surname").value +
-                   "\nDate of Birth:    " + document.getElementById("dateOfBirth").value +
-                   "\nAddress :           " +  address +
-                    "\n\n  Please confirm this is the correct Customer"
-                  ) ;
-
-                }
-
-        }
-
-
-
         window.onload = function(){
-
             document.getElementById('listbox').selectedIndex = -1;
             <?php if(isset($_SESSION['errorVarCust'])) { ?> alert("Customer ID " + <?php echo $_SESSION['customerID'] ?> +
                     " does not exist");  <?php session_unset();}?>
-
         }
-
     </script>
 
+    <script type="text/JavaScript" src="cillianscript.js">
 
+    </script>
 </head>
 <body>
         <div id="top">
@@ -104,7 +46,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
     <div id="mid">
         <div id="left">
             <br>
-            <form  action="OpenDeposit.php"  method="post">
+            <form  action="OpenDeposit.php"  onsubmit="return checkEmpty(this.submited);" method="post">
             <table>
                 <tr> <td>
                       <font size="5">  Select Name From List </font> </td> </tr>
@@ -117,7 +59,7 @@ if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localho
                 <tr> <td>    <input class="InputAddOn-field" pattern="[0-9]+" title="numeric only" type = "text" name = "customerID" id = "customerID"
                                     value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
                     </td></tr>
-                <tr> <td>      <button type="submit" name="search" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+                <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchCustomer" id="search" class="InputAddOn-item"> Search by Customer Number</button>
                     </td></tr>
                 <tr> <td> </td></tr>
 
