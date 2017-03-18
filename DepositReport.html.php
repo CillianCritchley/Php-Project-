@@ -49,6 +49,8 @@ include 'func.php';
 </div>
 <div id="mid">
 <div id="left">
+        <!-- checkEmpty() function is located in cillian.js. it ensures that a value must be entered
+                     into an appropriate field before the form can be submitted -->
     <form  action="DepositReport.php"  onsubmit="return checkEmpty(this.submited);" method="post">
     <table>
         <tr> <td>
@@ -73,6 +75,8 @@ include 'func.php';
 <div id="midleft">
 
 <form  action="DepositReport.php"   onsubmit="return formCheck(this.submited);" method="post">
+    <!--   if the session variables associated with the information related to these fields exist, output the values
+    stored to the field. Fields are readonly so this is purely for user information. -->
     <input  type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo $_SESSION['customerID']?>">
     <label for "amendfirstname">First Name </label>

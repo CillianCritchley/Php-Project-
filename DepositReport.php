@@ -6,6 +6,7 @@ if(isset($_POST['searchCustomer']))
 {
 
     session_unset();
+    $_SESSION['customerID'] = $_POST['customerID'];
 
     $sql = "select firstname, surname, dateOfBirth, addressLine1, addressLine2
  ,addTown, addCounty from Customer where customerID = " . $_POST['customerID'];
@@ -20,7 +21,6 @@ if(!$result = mysqli_query($con,$sql))
 if($rowcount ==1)
     {
         $row = mysqli_fetch_array($result);
-        $_SESSION['customerID'] = $_POST['customerID'];
         $_SESSION['firstname'] = $row['firstname'];
         $_SESSION['surname'] = $row['surname'];
         $_SESSION['dateOfBirth'] = $row['dateOfBirth'];
@@ -34,10 +34,14 @@ if($rowcount ==1)
     else if ($rowcount ==0)
     {
         $_SESSION['errorVarCust'] = "No such Customer found";    }
-    $_SESSION['customerID'] = $_POST['customerID'];
 
 } //search if
-
+/*
+ * This section deals with fetching the details of all deposit accounts (that are not closed) associated with
+ * a particular customerID. The rows gathered as a result of the query are stored in an associative array stored
+ * in a session variable.  If no deposit accounts are associated with a customerID there is code on
+ * DepositReport.html.php to deal with that.
+ */
 else if(Isset($_POST['confirm']))
 {
     session_unset();

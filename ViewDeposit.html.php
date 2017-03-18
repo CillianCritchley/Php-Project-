@@ -1,4 +1,11 @@
 <?php session_start();
+/*
+ * if a session variable exists storing a customerID(the actual value or variable isn't important, it's just
+ * to account for an actual session variable existing and customerID is the most common) and the referrer
+ * is any page other than this one, unset the session. Before this the session variables would populate the form
+ * fields on every page regardless of which page they were created as a result of. It didn't look good.
+ * func.php is a file with some php functions stored in it
+ */
 if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/ViewDeposit.html.php')
 {
     session_unset();
@@ -42,6 +49,8 @@ include 'func.php';
 <div id="mid">
 
 <div id="left">
+    <!-- checkEmpty() function is located in cillian.js. it ensures that a value must be entered
+             into an appropriate field before the form can be submitted -->
     <form  action="ViewDeposit.php"  onsubmit="return checkEmpty(this.submited);"  method="post">
         <table>
             <tr> <td>
@@ -78,7 +87,8 @@ include 'func.php';
 <p id = "display"> </p>
 
 <form  action="ViewDeposit.php"  onsubmit="return formCheck(this.submited);" method="post">
-
+    <!--   if the session variables associated with the information related to these fields exist, output the values
+    stored to the field. Fields are readonly so this is purely for user information. -->
     <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
     <label for "amendfirstname">First Name </label>
@@ -113,6 +123,14 @@ include 'func.php';
         <div id="righttop">
 <?php if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
+/*
+* if $_SESSION['results'] exists and has a size greater than 0 this means a list of deposit accounts was created
+* and assigned to it so it's safe to try and fill a form and table with details from it.
+* The ['results'] variable holds a 2d array, so two foreach loops are used. The first ($tempARR as $row) assigns
+* the value of the relevant deposit account ID to ahidden input field in the form associated with the Close button.
+ * This value is posted over to ViewDeposit.php.
+* The second foreach loop fills each particular row with the details of the account
+*/
 $tempARR = $_SESSION['results'];
 ?>
             <form action='ViewDeposit.php' id="viewdepositform" method='post'>
@@ -159,9 +177,14 @@ $tempARR = $_SESSION['results'];
                          </form> " ;
 
         }
+                        /*
+                 * If the user searches for a customerID and confirms the customer details but the customer has no deposit accounts
+                 * this message will appear in an alert box and also on the screen where the above table would otherwise be.
+                 */
         else if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) == 0 )
         {
-            echo "Customer has no Deposit Accounts";
+            echo "<script> alert(\"Customer has no Deposit Accounts\") </script> 
+            Customer has no Deposit Accounts";
         }
         ?>
 
@@ -174,8 +197,12 @@ $tempARR = $_SESSION['results'];
             <div id="reportHeaderDiv">
                 <table>
                     <?php
-                    if(isset($_SESSION['tran'])) {
-                    ?>
+                    if(isset($_SESSION['trans'])) {
+                        /*
+ * if the session variable storing the transactions has been created, set up the  header and account
+ * information div
+ */
+                        ?>
                         <TABLE>
                             <TR>
                                 <TD> First Half of Text</TD>
@@ -191,7 +218,7 @@ $tempARR = $_SESSION['results'];
             </div>
             <div id="reportContentDiv">
                 <?php
-                if (isset($_SESSION['tran'])) {
+                if (isset($_SESSION['trans'])) {
                 ?>
                 <table>
                     <tr>
@@ -201,9 +228,13 @@ $tempARR = $_SESSION['results'];
                         <th> Type</th>
                     </tr>
                     <?php
+                    /*
+                 * set up the table to display the transactions. it's a 2d array so two foreach loops.
+                 * the inner one loops through each individual row and outputs the values therein while the
+                 * outer just loops as many times as there are rows.
+                 */
 
-
-                    foreach ($_SESSION['tran'] as $transrow) {
+                    foreach ($_SESSION['trans'] as $transrow) {
                         echo "<tr> ";
                         foreach ($transrow as $transactionindex) {
                             {
