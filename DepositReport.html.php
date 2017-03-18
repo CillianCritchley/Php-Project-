@@ -1,4 +1,11 @@
 <?php session_start();
+/*
+ * if a session variable exists storing a customerID(the actual value or variable isn't important, it's just
+ * to account for an actual session variable existing and customerID is the most common) and the referrer
+ * is any page other than this one, unset the session. Before this the session variables would populate the form
+ * fields on every page regardless of which page they were created as a result of. It didn't look good.
+ * func.php is a file with some php functions stored in it
+ */
 if(isset($_SESSION['customerID']) && $_SERVER['HTTP_REFERER'] != 'http://localhost/proj/DepositReport.html.php')
 {
     session_unset();
@@ -98,12 +105,26 @@ include 'func.php';
 </div>
     <div id="rightReport">
 <div id="righttop">
-<?php if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
+
+
+<?php
+/*
+ * if $_SESSION['resultsReport'] exists and has a size greater than 0 this means a list of deposit accounts was created
+ * and assigned to it so it's safe to try and fill a form and table with details from it.
+ * The ['resultsReport'] variable holds a 2d array, so two foreach loops are used. The first ($tempARR as $row) assigns
+ * the value of the relevant deposit account ID,  to hidden input fields in the form,
+ *  These values are posted over to DepositReport.php
+ *  The second foreach loop fills each particular row with the details of the account.
+ * If the size of the ['resultsReport'] session variable is 0, an alert is sent to the user informing
+ * them that the customer has no deposit accounts and a message is printed on the screen.
+ * The dateCheck() function in the form is located in the cillian.js scripts file, it ensures the form will not
+ * submit with erroneous date values such as the start date being further in time than the end date.
+ */
+if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
 {
+
 $tempARR = $_SESSION['resultsReport'];
 ?>   <form action='DepositReport.php' onsubmit="return dateCheck();" name="depositReport" id="depositReport" method='post'>
-        <input  type = "hidden" name = "customerIDHide2" id = "customerIDHide2"
-                value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?> ">
         <table>
 		<tr> <th> Select</th><th></th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>
 <?php
@@ -138,22 +159,32 @@ foreach ($tempARR as $row)
         }
         else if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) == 0 )
         {
-            echo "Customer has no Deposit Accounts";
+            echo "<script> alert(\"Customer has no Deposit Accounts\") </script>
+                    Customer has no Deposit Accounts ";
         }
         ?>
 
 </div>
         <div id="righttopleft">
+            <!-- the generate report button and the search From/Search to Date inputs are located in a
+            seperate div so that they will always be visible
+             even when there are a lot of account's in the upper div to scroll through -->
             <input type = 'submit'  name='genReport' form="depositReport" value="generate report">
             <label for="searchFrom"> Search From</label>
-                    <input type = "date"  name="searchFrom" id="searchFrom" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd"
+                    <input type = "date"  name="searchFrom" id="searchFrom" placeholder="optional"
+                           pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd"
                            form="depositReport">
             <label for="searchTo"> Search To</labeL>
-                <input type = "date"  name="searchTo" id="searchTo" placeholder="optional" pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd" form="depositReport"> </div>
+                <input type = "date"  name="searchTo" id="searchTo" placeholder="optional"
+                       pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd" form="depositReport"> </div>
 <div id="rightbottom">
     <div id="reportHeaderDiv">
         <?php
         if(isset($_SESSION['trans'])) {
+            /*
+             * if the session variable storing the transactions has been created, set up the  header and account
+             * information div
+             */
             ?>
             <TABLE>
                 <TR>
@@ -172,6 +203,11 @@ foreach ($tempARR as $row)
 
                <?php
                if(isset($_SESSION['trans']))
+               /*
+                * set up the table to display the transactions. it's a 2d array so two foreach loops.
+                * the inner one loops through each individual row and outputs the values therein while the
+                * outer just loops as many times as there are rows.
+                */
                {
                     ?> <table>
                         <tr>

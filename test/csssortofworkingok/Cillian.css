@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+#contain {
+    display: flex;
+    flex-direction: column;
+}
+#top{
+    border-style: solid;
+}
+#mid {
+    border-style: dotted;
+    display: flex;
+    justify-content: center;
+
+}
+#midleft
+{
+    border-style: groove;
+}
+#midcen
+{
+    border-style: dashed;
+}
+#midright {
+    border-style: double;
+}
+
+.InputAddOn-field,
+.InputAddOn-item {
+    border: 3px solid rgba(147, 128, 108, 0.25);
+    padding: 0.5em 0.75em;
+    border-radius: 2px 1px 1px 2px;
+
+}

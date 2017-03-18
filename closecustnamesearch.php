@@ -1,12 +1,12 @@
 <?php
 include "db.inc.php"; //database connection
 /*
-$sql = "SELECT customerID, firstname, surname, dateOfBirth, addressLine1,
- addressLine2, addTown, addCounty from Customer order by surname asc ";
-*/
-$sql = "SELECT  Customer.customerID, Customer.firstName, Customer.surname, Customer.addressLine1, Customer.addressLine2, Customer.addTown, Customer.addCounty, 
-Customer.dateOfBirth, DepositAccount.depositAccountID, DepositAccount.balance, DepositAccount.closed FROM Customer INNER JOIN CustomerAccounts ON Customer.customerID=CustomerAccounts.customerID 
-INNER JOIN DepositAccount ON CustomerAccounts.accountID=DepositAccount.depositAccountID  AND closed IN ('0') GROUP BY surname";
+ * get a list of all customers with deposit accounts and output it to the select tag
+ */
+$sql = "SELECT  Customer.customerID, Customer.firstName, Customer.surname, Customer.addressLine1,
+ Customer.addressLine2, Customer.addTown, Customer.addCounty, Customer.dateOfBirth, DepositAccount.depositAccountID 
+ FROM Customer INNER JOIN CustomerAccounts ON Customer.customerID=CustomerAccounts.customerID 
+INNER JOIN DepositAccount ON CustomerAccounts.accountID=DepositAccount.depositAccountID and closed in ('0') GROUP BY surname";
 $result = mysqli_query($con,$sql);
 if(!$result = mysqli_query($con,$sql))
 {

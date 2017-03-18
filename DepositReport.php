@@ -68,46 +68,29 @@ else if(Isset($_POST['confirm']))
 
 
 }
-else if(isset($_POST['genReport']))
+/*
+ * if the user tries to generate a report without selecting a radio button, a function in
+ * func.php will send an alert informing the user when this session variable is created.
+ */
+
+else if(isset($_POST['genReport']) && !isset($_POST['radio']))
+{
+    $_SESSION['radioVar'] = "please select a row";
+}
+/*
+ * If either of the two input fields that are used to search
+ * for transactions between two specified dates are left blank the report generated includes all transactions
+ * found in the database for that account.
+ * The value of the radio button that was selected on DepositReport.html.php is posted over and is used to
+ * query the transactions associated with that account and store them in an array inside a session variable
+ * ['trans'].
+ * If the options to search between two dates those dates are used in the query below to only receive the
+ * transactions in between the beginning and end point of the dates queried.
+ */
+else if(isset($_POST['genReport']) && isset($_POST['radio']))
 {
     if($_POST['searchFrom'] == ""  || $_POST['searchTo'] == "")
     {
-
-
-    session_unset();
-    $sql = "select * from Customer where CustomerID = ".$_POST['customerIDHide2'];
-
-    if(!$result = mysqli_query($con,$sql))
-    {
-        die("Error in querying database").mysqli_error($con);
-    }
-
-    $row = mysqli_fetch_array($result);
-    $_SESSION['customerID'] = $_POST['customerIDHide2'];
-    $_SESSION['firstname'] = $row['firstName'];
-    $_SESSION['surname'] = $row['surname'];
-    $_SESSION['dateOfBirth'] = $row['dateOfBirth'];
-    $_SESSION['addressLine1'] = $row['addressLine1'];
-    $_SESSION['addressLine2'] = $row['addressLine2'];
-    $_SESSION['addTown']  = $row['addTown'];
-    $_SESSION['addCounty'] = $row['addCounty'];
-
-    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
-  DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
-    ON DepositAccount.depositAccountID = CustomerAccounts.accountID
-    INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = "
-        . $_POST['customerIDHide2'] . " AND closed = 0" ;
-
-    if(!$result = mysqli_query($con,$sql))
-    {
-        die("Error in querying database ".mysqli_error($con));
-    }
-
-
-
-    $_SESSION['resultsReport'] =  mysqli_fetch_all($result,MYSQLI_ASSOC);
-
-
 
     $sql= "SELECT Transactions.transactionID, Transactions.amount, Transactions.type, Transactions.date from Transactions 
     where accountID = ". $_POST['radio'];
@@ -129,13 +112,14 @@ else if(isset($_POST['genReport']))
         $_SESSION['trans'] = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
 
-    } // else if
+    } // search between dates else
 }
+// reset everything on the page
 else if(isset($_POST['reset'])){
 
 session_unset();
 }
-    //go back to the calling form - with the values that we need to display in sessions variables, if a record was found
+    //go back to the calling form - with the values that we need to display in sessions variables
 header("Location: DepositReport.html.php");
 
 

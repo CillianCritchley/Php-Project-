@@ -1,4 +1,7 @@
 <?php
+/*
+ * if when searching using a customerID or an accountID no such ID exists, one of these messages is alerted
+ */
 if(isset($_SESSION['errorVarCust']))
 {
 echo "<script> alert(\"Customer ID " . $_SESSION['customerID']  . " does not exist\" ); </script> ";
@@ -16,8 +19,6 @@ session_unset();
 checks if a session variable was created to store a message about an attempt made to close an account
 and sends it to an alert if one exists
 see CloseDeposit.php for more details
- at
- else if(isset($_POST['closeAcc']))
 
 */
 if(isset($_SESSION['closeVar'])) {
@@ -28,5 +29,15 @@ if(isset($_SESSION['closeVar'])) {
     unset($_SESSION['closeVar']);
 }
 
+/*
+ * on DepositReport.html.php if the user tries to generate a report without selecting a radio button
+ * this alert will appear.
+ */
+if(isset($_SESSION['radioVar']))
+{
+    echo "<script> alert(\"Please select a row\") </script>";
+    unset($_SESSION['radioVar']);
+}
 ?>
+
 
