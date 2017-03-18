@@ -179,8 +179,6 @@ else if(isset($_POST['closeAcc'])) {
             for($index = $_POST['index'] +1;$index<count($_SESSION['results']);$index++)
             {
                 array_push($tempARR1,$_SESSION['results'][$index]);
-                print_r($_SESSION['results'][$index]);
-                echo "<br>";
             }
             $_SESSION['results'] = $tempARR1;
         }

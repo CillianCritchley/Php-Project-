@@ -142,13 +142,17 @@ if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 
            ?>
                             <!-- depositAccountID and index are required to close the accounts, balance
-                             is sent over to provide information in an error message if required .-->
-         <tr>  <td> <form name="CloseDepositForm" id="CloseDepositForm" action="CloseDeposit.php" method="post">
+                             is sent over to provide information in an error message if required .
+                             a confirmation message pops up asking the user to confirm they wish to close the
+                             selected account -->
+         <tr>  <td> <form onsubmit="return confirm('are you sure you want to close account' +
+                         ' <?php echo $row['depositAccountID'] ?> ?');" action="CloseDeposit.php" method="post">
 
                     <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['depositAccountID']; ?>">
                     <input type="hidden" id="balance" name="balance" value="<?php echo $row['balance']; ?>">
                     <input type="hidden" id="index" name="index" value="<?php echo $index; ?>">
-                    <input type="submit" value="Close" id="closeAcc" name="closeAcc" title="Click here to close the Account">
+                     <input type="submit" value="Close" id="closeAcc" name="closeAcc"
+                            title="Click here to close the Account">
                 </form></td>
     <?php
 

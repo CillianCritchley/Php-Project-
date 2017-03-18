@@ -1,3 +1,4 @@
+
 function checkPass()
 {
 
@@ -134,6 +135,7 @@ function dateCheck() {
     }
 
 }
+
 
 
 window.onload = function(){
