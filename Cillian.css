@@ -162,3 +162,11 @@ html,body{
 font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 
 }
+form{
+    width: 690px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: lightblue;
+    border: 1px solid #0029D6; /*A blue colour*/
+    border-radius: 3px;
+}

@@ -1,5 +1,17 @@
+/*
+The following function is called from changepass.php. checkPass prevents the change password form
+from submitting if both new passwords that are entered do not match and outputs an alert every
+failed attempt that informs the user both passwords must be equal.
+Every second attempt the user will be notified how many attempts have been made.
+
+ */
+countVar = 0;
+
 function checkPass()
 {
+    var count = 0;
+    count++;
+    countVar = countVar + count;
 
     var p = document.getElementById('newpass').value;
     var p2 = document.getElementById('newpasscopy').value;
@@ -8,9 +20,17 @@ function checkPass()
     {
         return true;
     }
-    else{
+    else if(countVar %2 !=0)
+    {
+        alert("New passwords must match ");
         return false;
     }
+    else{
+        alert("New passwords must match, " + countVar + " attempts made");
+        return false;
+    }
+
+
 }
 
 /*

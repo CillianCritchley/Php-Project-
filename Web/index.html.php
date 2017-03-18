@@ -1,8 +1,19 @@
+<?php
+session_start();
+if(!isset($_SESSION['userloggedin']))
+{
+    $_SESSION['count'] =0;
+    header('location: login.php');
+}
+else{
+    unset($_SESSION['count']);
+}?>
 <!--
 The main menu page for our project (The Bank System)
 Craig Lawlor, Craig Doyle, Cillian o Criothaile (c00139896), Helmuts Dunavskis (C00208483)
 
 -->
+
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -22,7 +33,7 @@ Craig Lawlor, Craig Doyle, Cillian o Criothaile (c00139896), Helmuts Dunavskis (
 		<!--This side bar has clickable dropdowns with further options-->
 			<div class="sidebar">
 			<br><br><br>	
-			<a href="index.html" class="dropbut">Home</a>
+			<a href="Welcome.html" target="contentframe" class="dropbut">Home</a>
 			<div  class="dropLink">
 				<a href="javascript: toggle1()" id="test" class="dropbut">Parent 1</a>
 				<div id="link1" class="dropdownSide">
@@ -55,7 +66,7 @@ Craig Lawlor, Craig Doyle, Cillian o Criothaile (c00139896), Helmuts Dunavskis (
 			</div>
 		</div>
 		<div class="content">
- 			<iframe  id="contentframe" name="contentframe"> </iframe>
+ 			<iframe  id="contentframe" name="contentframe" src="Welcome.html"> </iframe>
 		</div>
 		<!--<div class="footer">
 			
