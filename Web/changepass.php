@@ -1,6 +1,9 @@
 <?php
 session_start();
 include ('db.inc.php');
+/*
+ *  DO I NEED THIS?. I don't think so
+ */
 if($_SERVER['HTTP_REFERER'] == 'http://localhost/proj/Web/Welcome.html' )
 {
     $_SESSION['passattempts'] =0;
@@ -40,7 +43,14 @@ if($_SERVER['HTTP_REFERER'] == 'http://localhost/proj/Web/Welcome.html' )
 </form>
 
 <?php
-
+/*
+ * If the user has submitted the a password from the enter current password form this is checked against the database
+ * and if it is correct the value is echo'd into the hidden textield oldpass2 in the new password form.
+ * the new password form will not be displayed unless the 'oldpass' field is posted.
+ * when the user is using the new password form it is this echo'd oldpass2 value that is used to ensure the
+ * new password form will be displayed after a page refresh on submit.
+ *
+ */
 if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
 {
     $sql = "select password from Password";
@@ -53,6 +63,9 @@ if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
     if((isset($_POST['oldpass']) &&  $_POST['oldpass'] == $row[0])
       || (isset($_POST['oldpass2']) &&  $_POST['oldpass2'] == $row[0]))
     {
+        /*
+         * the checkPass() function is explained in the cillian.js script file
+         */
        ?>
 <form action="changepass.php" name="newpassvalid" method="post" onsubmit="return checkPass();">
     <input type="hidden"  name="oldpass2" value="<?php echo $_POST['oldpass'] ?>">
@@ -65,6 +78,11 @@ if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
 </form>
 
 <?php
+/*
+ * if the checkPass() function allows the form submissions, it means both entered pasaswords are equal so
+ * one of them is chosen to replace the current password value in the database for user 'user'
+ * and alert is then issued to notify the user of success
+ */
     if(isset($_POST['changepass']))
         {
             $sql = "update Password set Password = '$_POST[newpass]' where user = 'user'";

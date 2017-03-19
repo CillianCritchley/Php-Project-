@@ -126,7 +126,9 @@ include 'func.php';
  */
 if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
 {
-
+/*
+ * dateCheck() function is explained in cillian.js script file
+ */
 $tempARR = $_SESSION['resultsReport'];
 ?>   <form action='DepositReport.php' onsubmit="return dateCheck();" name="depositReport" id="depositReport" method='post'>
         <table>

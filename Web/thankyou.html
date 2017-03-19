@@ -18,7 +18,11 @@
     </style>
 
     <script >
-
+/*
+when the user clicks the logout button, the ['userloggedin'] session is unset before coming here
+the onload function below reloads the parent page (index.php)
+as a result of ['userloggedin'] not being set, the user is redirected to the initial login page
+ */
 
         window.onload = function(){
         window.parent.location.reload();
