@@ -60,7 +60,7 @@ else if($_SESSION['count'] <= 2)
     </head>
 <body>
         <center>
-<form action="checklogin.php" method="post">
+<form class="form1" action="checklogin.php" method="post">
      <label for="pass"> Enter Password for User Login</label>
     <input type="password" name="pass" id="pass" required pattern="[a-zA-z0-9]{1,}" autofocus>
     <input type="submit" name="sendpass" id="sendpass" value="submit">
@@ -69,7 +69,6 @@ else if($_SESSION['count'] <= 2)
     </center>
 <?php
 }
-// DO I NEED THIS?
 else if(isset($_SESSION['userloggedin']))
 {
 header('location: index.html.php');

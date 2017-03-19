@@ -1,13 +1,7 @@
 <?php
 session_start();
 include ('db.inc.php');
-/*
- *  DO I NEED THIS?. I don't think so
- */
-if($_SERVER['HTTP_REFERER'] == 'http://localhost/proj/Web/Welcome.html' )
-{
-    $_SESSION['passattempts'] =0;
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -35,14 +29,22 @@ if($_SERVER['HTTP_REFERER'] == 'http://localhost/proj/Web/Welcome.html' )
 
 </head>
 <body>
-<form action="changepass.php"  method="post">
-    <label for="oldpass"> Enter Old Password</label>
-    <input type="text" required pattern="[a-zA-Z0-9]{1,}" name="oldpass">
-    <input type="submit" name="sendoldpass" value="Change Password">
-
-</form>
-
 <?php
+/*
+ * first time on the page only display the current password form
+ */
+if(!isset($_POST['oldpass']) && !isset($_POST['oldpass2'])) {
+    ?>
+    <form class="form1" action="changepass.php" method="post">
+        <label for="oldpass"> Enter Old Password</label>
+        <input type="text" required pattern="[a-zA-Z0-9]{1,}" name="oldpass">
+        <input type="submit" name="sendoldpass" value="Change Password">
+
+    </form>
+
+    <?php
+
+}
 /*
  * If the user has submitted the a password from the enter current password form this is checked against the database
  * and if it is correct the value is echo'd into the hidden textield oldpass2 in the new password form.
@@ -51,7 +53,7 @@ if($_SERVER['HTTP_REFERER'] == 'http://localhost/proj/Web/Welcome.html' )
  * new password form will be displayed after a page refresh on submit.
  *
  */
-if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
+else if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
 {
     $sql = "select password from Password";
     if(!$result = mysqli_query($con,$sql))
@@ -67,7 +69,7 @@ if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
          * the checkPass() function is explained in the cillian.js script file
          */
        ?>
-<form action="changepass.php" name="newpassvalid" method="post" onsubmit="return checkPass();">
+<form class="form1" action="changepass.php" name="newpassvalid" method="post" onsubmit="return checkPass();">
     <input type="hidden"  name="oldpass2" value="<?php echo $_POST['oldpass'] ?>">
     <label for="newpass"> Enter new Password</label>
     <input type="password" required name="newpass" pattern="[a-zA-Z0-9]{1,}" title="alphanumeric only" id="newpass">
@@ -92,7 +94,9 @@ if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
                 die("error updating password ".mysqli_error($con));
             }
             else{
-                echo "<script> alert(\"password updated\") </script> ";
+                $_SESSION['passChanged'] = "password changed";
+                header('location:Welcome.html.php');
+
             }
         }
     }
