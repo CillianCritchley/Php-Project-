@@ -108,6 +108,7 @@ else if(isset($_POST['addDeposit'])) {
     }
 
     session_unset();
+    $_SESSION['createVAR'] = "Account Created";
 }
 //reset everything on the page
 else if(isset($_POST['reset'])){

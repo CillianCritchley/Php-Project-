@@ -51,7 +51,7 @@ include 'func.php';
 <div id="left">
         <!-- checkEmpty() function is located in cillian.js. it ensures that a value must be entered
                      into an appropriate field before the form can be submitted -->
-    <form  action="DepositReport.php"  onsubmit="return checkEmpty(this.submited);" method="post">
+    <form  class="form1" action="DepositReport.php"  onsubmit="return checkEmpty(this.submited);" method="post">
     <table>
         <tr> <td>
                 <font size="5">  Select Name From List </font> </td> </tr>
@@ -61,10 +61,10 @@ include 'func.php';
         <tr> <td>  <label for "customerID" > Search By Customer ID </label>
             </td> </tr>
 
-        <tr> <td>    <input class="InputAddOn-field"  type = "text" pattern="[0-9]+" title="numeric only" name = "customerID" id = "customerID"
+        <tr> <td>    <input class="textfield"  type = "text" pattern="[0-9]+" title="numeric only" name = "customerID" id = "customerID"
                             value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
             </td></tr>
-        <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchCustomer" id="search" class="InputAddOn-item"> Search by Customer Number</button>
+        <tr> <td>      <button type="submit" class="formitem" onclick="this.form.submited=this.name;" name="searchCustomer" id="search" class="InputAddOn-item"> Search by Customer Number</button>
             </td></tr>
         <tr> <td> </td></tr>
 
@@ -74,36 +74,36 @@ include 'func.php';
 </div>
 <div id="midleft">
 
-<form  action="DepositReport.php"   onsubmit="return formCheck(this.submited);" method="post">
+<form  class="form1" action="DepositReport.php"   onsubmit="return formCheck(this.submited);" method="post">
     <!--   if the session variables associated with the information related to these fields exist, output the values
     stored to the field. Fields are readonly so this is purely for user information. -->
-    <input  type = "hidden" name = "customerIDHide" id = "customerIDHide"
+    <input  type = "hidden"  name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo $_SESSION['customerID']?>">
     <label for "amendfirstname">First Name </label>
-    <input readonly type = "text" name = "firstname" id = "firstname"
+    <input readonly class="textfield" type = "text" name = "firstname" id = "firstname"
            value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>">
     <label for "amendlastname">Surname </label>
-    <input readonly type = "text" name = "surname" id = "surname"
+    <input readonly class="textfield" type = "text" name = "surname" id = "surname"
            value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?>">
     <label for "amendDOB">Date of Birth </label>
-    <input readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
+    <input readonly class="textfield" type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
            value="<?php if(ISSET($_SESSION['dateOfBirth']))  {
                $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?>">
     <label for "addressLine1">Address Line 1</label>
-    <input readonly type = "text" name = "addressLine1" id = "addressLine1"
+    <input readonly class="textfield" type = "text" name = "addressLine1" id = "addressLine1"
            value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?>">
     <label for "addressLine2">Address Line 2 </label>
-    <input readonly type = "text" name = "addressLine2" id = "addressLine2"
+    <input readonly class="textfield" type = "text" name = "addressLine2" id = "addressLine2"
            value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?>">
     <label for "addTown">Town </label>
-    <input readonly type = "text" name = "addTown" id = addTown
+    <input readonly class="textfield" type = "text" name = "addTown" id = addTown
            value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?>">
     <label for "addCounty">County </label>
-    <input readonly type = "text" name = "addCounty" id = "addCounty"
+    <input readonly class="textfield"  type = "text" name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
     <br><br>
-    <input type="submit"  name="confirm" id="confirm" onclick="this.form.submited=this.value;" value="Confirm Customer">
-    <input type="submit"  name="reset" id="reset" onclick="this.form.submited=this.value;" value="reset">
+    <input type="submit"  class="formitem" name="confirm" id="confirm" onclick="this.form.submited=this.value;" value="Confirm Customer">
+    <input type="submit"  class="formitem" name="reset" id="reset" onclick="this.form.submited=this.value;" value="reset">
 
 </form>
 </div>
@@ -130,9 +130,10 @@ if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 
  * dateCheck() function is explained in cillian.js script file
  */
 $tempARR = $_SESSION['resultsReport'];
-?>   <form action='DepositReport.php' onsubmit="return dateCheck();" name="depositReport" id="depositReport" method='post'>
-        <table>
-		<tr> <th> Select</th><th></th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>
+?>   <table style="width:100%" >
+    <tr><form  action='DepositReport.php' onsubmit="return dateCheck();" name="depositReport" id="depositReport" method='post'>
+    </tr>
+		<tr> <th width='20%'> Select</th><th width='20%'> Account ID</th><th width='20%'>Balance</th><th width='20%'> Date Opened </th> </tr>
 <?php
 
 
@@ -144,12 +145,12 @@ foreach ($tempARR as $row)
     <!-- table row for each row in the $tempARR array -->
     <tr>
             <!-- give each radio button the value of the account ID associated with this row -->
-        <?php echo "<td> <input type=\"radio\" name='radio' value=".$row['depositAccountID'].">  </td>";
+        <?php echo "<td class=\"centerTable\"> <input class=\"formitem\" type=\"radio\" name='radio' value=".$row['depositAccountID'].">  </td>";
 
         foreach ($row as $rowItem) {
             // fill each column of the row
             echo
-                "<td>" . $rowItem . "</td>";
+                "<td class=\"centerTable\">" . $rowItem . "</td>";
 
         }   //inner loop
         // end of table row
@@ -171,18 +172,26 @@ foreach ($tempARR as $row)
         ?>
 
 </div>
-        <div id="righttopleft">
+        <div id="righttopBottom">
             <!-- the generate report button and the search From/Search to Date inputs are located in a
             seperate div so that they will always be visible
              even when there are a lot of account's in the upper div to scroll through -->
-            <input type = 'submit'  name='genReport' form="depositReport" value="generate report">
+        <?php
+        if(ISSET($_SESSION['resultsReport']) && (count($_SESSION['resultsReport'])) > 0 )
+        {
+            ?>
+            <input type = 'submit' class="formitem" name='genReport' form="depositReport" value="generate report">
             <label for="searchFrom"> Search From</label>
-                    <input type = "date"  name="searchFrom" id="searchFrom" placeholder="optional"
+                    <input class="textfield" type = "date"  name="searchFrom" id="searchFrom" placeholder="optional"
                            pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd"
                            form="depositReport">
             <label for="searchTo"> Search To</labeL>
-                <input type = "date"  name="searchTo" id="searchTo" placeholder="optional"
-                       pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd" form="depositReport"> </div>
+                <input class="textfield" type = "date"  name="searchTo" id="searchTo" placeholder="optional"
+                       pattern="^\d{4}-\d\d-\d\d$" title="yyyy-mm-dd" form="depositReport">
+       <?php  }
+
+        ?>
+        </div>
 <div id="rightbottom">
     <div id="reportHeaderDiv">
         <?php
@@ -192,13 +201,14 @@ foreach ($tempARR as $row)
              * information div
              */
             ?>
-            <TABLE>
+            <TABLE style="width:100%">
                 <TR>
-                    <TD> First Half of Text</TD>
+                    <TD> Deposit Account Details</TD>
                 </TR>
                 <tr>
-                    <TD> Image</TD>
-                    <TD> Second Half of Text</TD>
+                    <TD> Account ID <?php echo ":   ".$_SESSION['radio'] ?></TD>
+                    <TD align="right"> Customer Name :   <?php echo $_SESSION['firstname']. " ". $_SESSION['surname'] ."       "; ?></TD>
+                    <td width="10%"> </td>
                 </TR>
             </TABLE>
             <?php
@@ -217,10 +227,10 @@ foreach ($tempARR as $row)
                {
                     ?> <table>
                         <tr>
-                            <th> Transaction ID</th>
-                            <th> Amount</th>
-                            <th> Date</th>
-                            <th> Type</th>
+                            <th width="20%"> Transaction ID</th>
+                            <th width="20%"> Amount</th>
+                            <th width="20%"> Date </th>
+                            <th width="20%"> Date</th>
                         </tr>
 
 
@@ -230,14 +240,14 @@ foreach ($tempARR as $row)
                             foreach($transrow as $transactionindex)
                             {
                             echo " 
-                            <td> " . $transactionindex . "</td>
+                            <td class=\"centerTable\"> " . $transactionindex . "</td>
                           
                           ";
 
                         }
                         }
 
-                        echo "</tr></table> </td> </tr>";
+                        echo "</tr></table> ";
 }
 
 
@@ -251,7 +261,7 @@ foreach ($tempARR as $row)
 
 </div>
 
-            </div>  <!-- div righttop -->
+            </div>  <!-- div rightReport -->
 
     </div> <!-- div right -->
 </body>

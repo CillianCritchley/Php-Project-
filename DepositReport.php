@@ -47,8 +47,7 @@ else if(Isset($_POST['confirm']))
     session_unset();
 
 
-    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened,
-  DepositAccount.closed FROM DepositAccount INNER JOIN CustomerAccounts
+    $sql=" SELECT  DepositAccount.depositAccountID, DepositAccount.balance,DepositAccount.dateOpened FROM DepositAccount INNER JOIN CustomerAccounts
     ON DepositAccount.depositAccountID = CustomerAccounts.accountID
     INNER JOIN Customer ON CustomerAccounts.customerID=Customer.customerID WHERE Customer.customerID = " . $_POST['customerIDHide'] . " AND closed = 0" ;
 
@@ -93,6 +92,8 @@ else if(isset($_POST['genReport']) && !isset($_POST['radio']))
  */
 else if(isset($_POST['genReport']) && isset($_POST['radio']))
 {
+    $_SESSION['radio'] = $_POST['radio'];
+
     if($_POST['searchFrom'] == ""  || $_POST['searchTo'] == "")
     {
 

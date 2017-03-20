@@ -156,6 +156,8 @@ else if(isset($_POST['ViewDetails']) && !isset($_POST['radio']))
 else if(isset($_POST['ViewDetails']) && isset($_POST['radio']))
 {
 
+    $_SESSION['radio'] = $_POST['radio'];
+
     $sql= "SELECT Transactions.transactionID, Transactions.amount, Transactions.type, Transactions.date from Transactions 
     where accountID = ". $_POST['radio'];
 

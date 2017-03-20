@@ -100,6 +100,9 @@ else if(isset($_POST['oldpass']) || isset($_POST['oldpass2']))
             }
         }
     }
+    else{
+        header('location:changepass.php');
+    }
 }
 ?>
 

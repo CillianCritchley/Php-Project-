@@ -10,12 +10,9 @@ html,body{
 }
 #top{
     height: 10%;
-    border-style: solid;
 }
 #mid {
     height: 88%;
-    border-style: dotted;
-    border-color: gold;
     display: flex;
 
 }
@@ -25,7 +22,6 @@ html,body{
     display: flex;
     height: 100%;
     align-self: center;
-    border-style: groove;
     font-size: large;
     align-items: center;
     flex: 1;
@@ -36,7 +32,6 @@ html,body{
     height: 90%;
     align-self: center;
 
-    border-style: dashed;
     flex:1.5;
     align-items: center;
 
@@ -45,17 +40,13 @@ html,body{
     display:flex;
     align-self: center;
     height: 90%;
-    border-style: double;
     flex:3;
     align-items: center;
     justify-content: center;
 }
 #right{
     display:flex;
-    height: 100%; /* maybe dont allow this for the bottom div */
     align-self: center;
-    border-style: groove;
-    background-color: #419bc1;
     font-size: large;
     flex:3;
     justify-content: center;
@@ -66,24 +57,21 @@ html,body{
     flex-direction: column;
     height: 100%; /* maybe dont allow this for the bottom div */
     align-self: center;
-    border-style: groove;
-    background-color: #441bc1;
     font-size: large;
     flex:3;
     justify-content: center;
 }
-#righttopleft
+#righttopBottom
 {
     display: flex;
     width: 100%;
-    background-color: goldenrod;
-    border-style: groove;
     justify-content: center;
+    border-style: hidden;
+
 }
 #righttop{
     display:flex;
     flex:1;
-    background-color: #d9eaff;
     justify-content: center;
 
     max-height: 25%;
@@ -95,7 +83,6 @@ html,body{
     display: flex;
     height: 100%;
     align-self: center;
-    border-style: groove;
     font-size: large;
     align-items: center;
     flex: 1;
@@ -104,27 +91,18 @@ html,body{
     display:flex;
     align-self: center;
     flex: 1;
-    background-color: yellowgreen;
     justify-content: center;
 }
 
-#rightright{
-    display:flex;
-    flex:2;
-    background-color: #a5c5f1;
-    justify-content: center;
-    align-self: center;
 
-}
 
 #rightbottom{
     display:flex;
     flex:2;
     flex-direction: column;
     width: 100%;
-    background-color: #a5c5f1;
     align-self: center;
-    border-style: dashed;
+
 
 }
 
@@ -133,7 +111,6 @@ html,body{
     display:flex;
     align-self: flex-start;
     width: 100%;
-    background-color: #FFFFFF;
     justify-content: center;
 
 }
@@ -143,7 +120,6 @@ html,body{
     display:flex;
     width: 100%;
     height: 100%;
-    background-color: #FFddFF;
     justify-content: center;
     overflow-y: auto;
 
@@ -154,19 +130,26 @@ html,body{
 }
 
 
-.InputAddOn-field,
-.InputAddOn-item {
+.textfield,
+.formitem {
     border: 3px solid rgba(147, 128, 108, 0.25);
     padding: 0.5em ;
     border-radius: 2px 1px 1px 2px;
 font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 
 }
-form{
-    width: 690px;
+.form1{
     margin: 0 auto;
     padding: 15px;
-    background-color: lightblue;
-    border: 1px solid #0029D6; /*A blue colour*/
     border-radius: 3px;
+}
+
+#form2{
+    margin: 0 ;
+    padding: 0;
+    border: none;
+}
+
+.centerTable{
+    text-align: center;
 }

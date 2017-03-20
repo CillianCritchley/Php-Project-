@@ -10,7 +10,7 @@ if(isset($_SESSION['passChanged']))
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../Cillian.css" type="text/css">
+    <link rel="stylesheet" href=".Cillian.css" type="text/css">
 
     <style>
         form{
@@ -26,7 +26,7 @@ if(isset($_SESSION['passChanged']))
         }
     </style>
 
-    <script type="text/JavaScript" src="../cillianscript.js">
+    <script type="text/JavaScript" src="cillianscript.js">
 
 
     </script>
@@ -34,7 +34,7 @@ if(isset($_SESSION['passChanged']))
 </head>
 <body>
 <h2 align="center"> Welcome to HCCC Banking System</h2>
-<form class="form1" name="logoutform" action="login.php" method="post"></form>
+<form class="form1" name="logoutform" action="login.php" method="post"> </form>
 
 <!--
 allow user to change password or to log out -->

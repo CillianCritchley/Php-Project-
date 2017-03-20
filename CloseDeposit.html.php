@@ -20,10 +20,7 @@ include 'func.php';
     <link rel="stylesheet" href="Cillian.css" type="text/css">
 
     <style>
-        form{
-            margin: 1em;
-            max-width: 500px;
-        }
+
         label{
             display: inline-block;
             width: 9em;
@@ -46,7 +43,7 @@ include 'func.php';
 <div id="mid">
                 <!-- checkEmpty() function is located in cillian.js. it ensures that a value must be entered
                  into an appropriate field before the form can be submitted -->
-        <div id="left" > <form  action="CloseDeposit.php"   onsubmit="return checkEmpty(this.submited);" method="post">
+        <div id="left" > <form class="form1" action="CloseDeposit.php"   onsubmit="return checkEmpty(this.submited);" method="post">
             <table>
                 <tr> <td>
                         <font size="5">  Select Name From List </font> </td> </tr>
@@ -56,23 +53,23 @@ include 'func.php';
                 <tr> <td>  <label for "customerID" > Search By Customer ID </label>
                     </td> </tr>
 
-                <tr> <td>    <input class="InputAddOn-field"  pattern="[0-9]{1,}" title="numeric only"
+                <tr> <td>    <input class="textfield"  pattern="[0-9]{1,}" title="numeric only"
                                     type = "text" name = "customerID" id = "customerID"
                                     value="<?php if(ISSET($_SESSION['customerID']))
                                         echo htmlspecialchars($_SESSION['customerID'])?>">
                     </td></tr>
-                <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;"
+                <tr> <td>      <button type="submit" class="formitem" onclick="this.form.submited=this.name;"
                                        name="searchCustomer" id="searchCustomer" class="InputAddOn-item"> Search by Customer Number</button>
                     </td></tr>
                 <tr> <td>     <tr> <td>  <label for "accountID" > Search By Account ID </label>
                     </td> </tr></td></tr>
-                <tr> <td>    <input class="InputAddOn-field"  pattern="[0-9]{1,}" title="numeric only"
+                <tr> <td>    <input class="textfield"  pattern="[0-9]{1,}" title="numeric only"
                                     type = "text" name = "accID" id = "accID"
                                     value="<?php if(ISSET($_SESSION['accID']))
                                         echo htmlspecialchars($_SESSION['accID'])?>">
                     </td></tr>
 
-                <tr> <td>      <button type="submit" onclick="this.form.submited=this.name;" name="searchAccount"
+                <tr> <td>      <button type="submit" class="formitem" onclick="this.form.submited=this.name;" name="searchAccount"
                                        id="searchAccount" class="InputAddOn-item"> Search by Account Number</button>
                     </td></tr>
             </table>
@@ -80,37 +77,37 @@ include 'func.php';
 
 <div id="midleft">
 
-<form  action="CloseDeposit.php" onsubmit="return formCheck(this.submited);" id="ConfirmReset" method="post">
+<form  class="form1" action="CloseDeposit.php" onsubmit="return formCheck(this.submited);" id="ConfirmReset" method="post">
 <!--   if the session variables associated with the information related to these fields exist, output the values
 stored to the field. Fields are readonly so this is purely for user information. -->
-    <input type = "hidden" name = "customerIDHide" id = "customerIDHide"
+    <input type = "hidden" class="textfield" name = "customerIDHide" id = "customerIDHide"
            value="<?php if(ISSET($_SESSION['customerID'])) echo htmlspecialchars($_SESSION['customerID'])?>">
     <label for "amendfirstname">First Name </label>
-    <input readonly type = "text" name = "firstname" id = "firstname"
+    <input readonly type = "text" class="textfield" name = "firstname" id = "firstname"
            value="<?php if(ISSET($_SESSION['firstname'])) echo $_SESSION['firstname'] ?>">
     <label for "amendlastname">Surname </label>
-    <input readonly type = "text" name = "surname" id = "surname"
+    <input readonly type = "text" class="textfield" name = "surname" id = "surname"
            value="<?php if(ISSET($_SESSION['surname'])) echo $_SESSION['surname'] ?>">
     <label for "amendDOB">Date of Birth </label>
-    <input readonly type = "text" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
+    <input readonly type = "text" class="textfield" name = "dateOfBirth" id = "dateOfBirth" title = "format is dd-mm-yyyy"
            value="<?php if(ISSET($_SESSION['dateOfBirth']))  {
                $date= date_create($_SESSION['dateOfBirth']); $date = date_format($date,"d-m-Y"); echo $date; }?>">
     <label for "addressLine1">Address Line 1</label>
-    <input readonly type = "text" name = "addressLine1" id = "addressLine1"
+    <input readonly type = "text" class="textfield" name = "addressLine1" id = "addressLine1"
            value="<?php if(ISSET($_SESSION['addressLine1'])) echo $_SESSION['addressLine1'] ?>">
     <label for "addressLine2">Address Line 2 </label>
-    <input readonly type = "text" name = "addressLine2" id = "addressLine2"
+    <input readonly type = "text" class="textfield" name = "addressLine2" id = "addressLine2"
            value="<?php if(ISSET($_SESSION['addressLine2'])) echo $_SESSION['addressLine2'] ?>">
     <label for "addTown">Town </label>
-    <input readonly type = "text" name = "addTown" id = addTown
+    <input readonly type = "text" class="textfield" name = "addTown" id = addTown
            value="<?php if(ISSET($_SESSION['addTown'])) echo $_SESSION['addTown'] ?>">
     <label for "addCounty">County </label>
-    <input readonly type = "text" name = "addCounty" id = "addCounty"
+    <input readonly type = "text" class="textfield"  name = "addCounty" id = "addCounty"
            value="<?php if(ISSET($_SESSION['addCounty'])) echo $_SESSION['addCounty'] ?>">
     <br><br>
-    <input type="submit"  onclick="this.form.submited=this.value;"  name="confirm" id="confirm" value="Confirm Customer">
+    <input type="submit"  class="formitem" onclick="this.form.submited=this.value;"  name="confirm" id="confirm" value="Confirm Customer">
 
-        <input type="submit"  onclick="this.form.submited=this.value;" name="reset" id="reset"  value="reset">
+        <input type="submit" class="formitem" onclick="this.form.submited=this.value;" name="reset" id="reset"  value="reset">
 
 <br><br><br>
 
@@ -130,8 +127,8 @@ stored to the field. Fields are readonly so this is purely for user information.
 if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
 {
     $tempARR = $_SESSION['results'];
-    echo "<table>
-		<tr> <th> Close Account </th><th> Account ID</th><th>Balance</th><th> Date Opened </th> </tr>";
+    echo "<table style=\"width:100%\" >
+		<tr> <th width='20%'> Close Account </th><th  width='20%'> Account ID</th><th width='20%'>Balance</th><th width='20%'> Date Opened </th> </tr>";
 
 
 
@@ -145,13 +142,13 @@ if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
                              is sent over to provide information in an error message if required .
                              a confirmation message pops up asking the user to confirm they wish to close the
                              selected account -->
-         <tr>  <td> <form onsubmit="return confirm('are you sure you want to close account' +
+         <tr>  <td class="centerTable"> <form id="form2" onsubmit="return confirm('are you sure you want to close account' +
                          ' <?php echo $row['depositAccountID'] ?> ?');" action="CloseDeposit.php" method="post">
 
                     <input type="hidden" id="depAccID" name="depAccID" value="<?php echo $row['depositAccountID']; ?>">
                     <input type="hidden" id="balance" name="balance" value="<?php echo $row['balance']; ?>">
                     <input type="hidden" id="index" name="index" value="<?php echo $index; ?>">
-                     <input type="submit" value="Close" id="closeAcc" name="closeAcc"
+                     <input type="submit" class="formitem" value="Close" id="closeAcc" name="closeAcc"
                             title="Click here to close the Account">
                 </form></td>
     <?php
@@ -159,7 +156,7 @@ if(ISSET($_SESSION['results']) && (count($_SESSION['results'])) > 0 )
             foreach($row as $rowItem)
             {
                 echo
-                    "<td>".$rowItem."</td>";
+                    "<td class='centerTable'>".$rowItem."</td>";
 
             }
             echo "</tr>";
